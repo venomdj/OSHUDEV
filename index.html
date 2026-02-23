@@ -6,7 +6,34 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<h1>Study Dashboard</h1>
+<p id="leaderBanner">Loading leader...</p>
 
+<div class="dashboard">
+
+  <div class="card" id="youCard">
+    <h2>You</h2>
+    <div class="timer" id="youTimer">00:00:00</div>
+    <div class="total">Total: <span id="youTotal">00:00:00</span></div>
+    <div class="buttons">
+      <button onclick="startTimer('you')">Start</button>
+      <button onclick="pauseTimer('you')">Pause</button>
+      <button onclick="stopTimer('you')">Stop</button>
+    </div>
+  </div>
+
+  <div class="card" id="herCard">
+    <h2>Her</h2>
+    <div class="timer" id="herTimer">00:00:00</div>
+    <div class="total">Total: <span id="herTotal">00:00:00</span></div>
+    <div class="buttons">
+      <button onclick="startTimer('her')">Start</button>
+      <button onclick="pauseTimer('her')">Pause</button>
+      <button onclick="stopTimer('her')">Stop</button>
+    </div>
+  </div>
+
+</div>
 <div class="app">
 
   <div class="header">
