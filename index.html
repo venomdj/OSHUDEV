@@ -313,18 +313,9 @@
   const db = getFirestore(app);
 
   // ── CONSTANTS ───────────────────────────────────────────────
-  const GOAL = 4 * 3600;
+  const GOAL  = 4 * 3600;
   const today = () => new Date().toISOString().slice(0, 10);
-
-  // ── STATE ───────────────────────────────────────────────────
-  const local = {
-    dev:  { interval: null, elapsed: 0, running: false, paused: false },
-    oshu: { interval: null, elapsed: 0, running: false, paused: false }
-  };
-  let remote = {
-    dev:  { totalSec: 0, sessions: 0, longest: 0 },
-    oshu: { totalSec: 0, sessions: 0, longest: 0 }
-  };
+  const el    = id => document.getElementById(id);
 
   // ── FORMAT ──────────────────────────────────────────────────
   const fmt = s => {
@@ -336,93 +327,132 @@
     return h ? `${h}h${m}m` : `${m}m`;
   };
 
+  // ── CLOUD STATE (single source of truth in Firestore) ────────
+  // Shape per user:
+  //   status:    'idle' | 'running' | 'paused'
+  //   startedAt: ms when current session started (null if idle/paused)
+  //   elapsed:   seconds accumulated before current session (for pause/resume)
+  //   totalSec:  all completed sessions summed
+  //   sessions:  count of completed sessions
+  //   longest:   longest session in seconds
+  let cloud = {
+    dev:  { status:'idle', startedAt:null, elapsed:0, totalSec:0, sessions:0, longest:0 },
+    oshu: { status:'idle', startedAt:null, elapsed:0, totalSec:0, sessions:0, longest:0 }
+  };
+
+  // ── LIVE ELAPSED (derived from startedAt + Date.now()) ───────
+  // This is identical on ALL devices since startedAt is shared via Firestore
+  function liveElapsed(user) {
+    const c = cloud[user];
+    if (c.status === 'running' && c.startedAt) {
+      return c.elapsed + Math.floor((Date.now() - c.startedAt) / 1000);
+    }
+    return c.elapsed; // paused or idle
+  }
+
   // ── SAVE TO FIRESTORE ────────────────────────────────────────
-  async function save(user, extra = {}) {
+  async function save(user) {
     try {
-      await setDoc(doc(db, 'study', today()), {
-        [user]: { ...remote[user], running: local[user].running && !local[user].paused, ...extra }
-      }, { merge: true });
+      await setDoc(doc(db, 'study', today()), { [user]: cloud[user] }, { merge: true });
     } catch(e) { console.error('Save error:', e); }
   }
 
   // ── TIMER CONTROLS ───────────────────────────────────────────
-  window.startTimer = function(user) {
-    const l = local[user];
-    if (l.running && !l.paused) return;
-    l.running = true; l.paused = false;
-    el(`${user}Dot`).classList.add('active');
-    el(`${user}Timer`).classList.add('running');
-    setButtons(user, 'running');
-    save(user, { running: true });
-    l.interval = setInterval(() => {
-      l.elapsed++;
-      el(`${user}Timer`).textContent = fmt(l.elapsed);
-      updateUI();
-    }, 1000);
-  };
+  window.startTimer = async function(user) {
+    const c = cloud[user];
+    if (c.status === 'running') return;
 
-  window.pauseTimer = function(user) {
-    const l = local[user];
-    if (!l.running || l.paused) return;
-    clearInterval(l.interval);
-    l.paused = true;
-    el(`${user}Dot`).classList.remove('active');
-    el(`${user}Timer`).classList.remove('running');
-    setButtons(user, 'paused');
-    save(user, { running: false });
-  };
-
-  window.stopTimer = function(user) {
-    const l = local[user];
-    clearInterval(l.interval);
-    if (l.elapsed > 0) {
-      remote[user].totalSec += l.elapsed;
-      remote[user].sessions += 1;
-      if (l.elapsed > remote[user].longest) remote[user].longest = l.elapsed;
+    if (c.status === 'paused') {
+      // Resume: set new startedAt, keep elapsed as-is
+      c.startedAt = Date.now();
+    } else {
+      // Fresh start
+      c.startedAt = Date.now();
+      c.elapsed   = 0;
     }
-    l.elapsed = 0; l.running = false; l.paused = false;
-    el(`${user}Timer`).textContent = '00:00:00';
-    el(`${user}Timer`).classList.remove('running');
-    el(`${user}Dot`).classList.remove('active');
+    c.status = 'running';
+    await save(user);
+    setButtons(user, 'running');
+  };
+
+  window.pauseTimer = async function(user) {
+    const c = cloud[user];
+    if (c.status !== 'running') return;
+    // Snapshot elapsed so resume can continue from here
+    c.elapsed   = liveElapsed(user);
+    c.startedAt = null;
+    c.status    = 'paused';
+    await save(user);
+    setButtons(user, 'paused');
+  };
+
+  window.stopTimer = async function(user) {
+    const c = cloud[user];
+    if (c.status === 'idle') return;
+    const sessionSec = liveElapsed(user);
+    if (sessionSec > 0) {
+      c.totalSec += sessionSec;
+      c.sessions += 1;
+      if (sessionSec > c.longest) c.longest = sessionSec;
+    }
+    c.status    = 'idle';
+    c.startedAt = null;
+    c.elapsed   = 0;
+    await save(user);
     setButtons(user, 'idle');
-    save(user, { running: false });
-    updateUI();
+    render();
   };
 
   function setButtons(user, s) {
     const start = el(`${user}Start`), pause = el(`${user}Pause`), stop = el(`${user}Stop`);
-    start.disabled = s === 'running';
-    pause.disabled = s !== 'running';
-    stop.disabled  = s === 'idle';
+    start.disabled = (s === 'running');
+    pause.disabled = (s !== 'running');
+    stop.disabled  = (s === 'idle');
     start.textContent = s === 'paused' ? '▶ Resume' : '▶ Start';
   }
 
-  // ── UI UPDATE ────────────────────────────────────────────────
-  function updateUI() {
-    const devLive  = remote.dev.totalSec  + local.dev.elapsed;
-    const oshuLive = remote.oshu.totalSec + local.oshu.elapsed;
+  // ── RENDER (called every second by tick) ────────────────────
+  // Uses Date.now() - startedAt so ALL devices show identical numbers
+  function render() {
+    const devLive  = cloud.dev.totalSec  + liveElapsed('dev');
+    const oshuLive = cloud.oshu.totalSec + liveElapsed('oshu');
 
-    el('devTotal').textContent  = fmt(remote.dev.totalSec);
-    el('oshuTotal').textContent = fmt(remote.oshu.totalSec);
+    // Timers
+    el('devTimer').textContent  = fmt(liveElapsed('dev'));
+    el('oshuTimer').textContent = fmt(liveElapsed('oshu'));
+    el('devTimer').classList.toggle('running',  cloud.dev.status  === 'running');
+    el('oshuTimer').classList.toggle('running', cloud.oshu.status === 'running');
+
+    // Status dots
+    el('devDot').classList.toggle('active',  cloud.dev.status  === 'running');
+    el('oshuDot').classList.toggle('active', cloud.oshu.status === 'running');
+
+    // Totals
+    el('devTotal').textContent  = fmt(cloud.dev.totalSec);
+    el('oshuTotal').textContent = fmt(cloud.oshu.totalSec);
     el('sbDevTotal').textContent  = fmt(devLive);
     el('sbOshuTotal').textContent = fmt(oshuLive);
     el('combinedTotal').textContent = fmt(devLive + oshuLive);
-    const totalSessions = remote.dev.sessions + remote.oshu.sessions;
+
+    const totalSessions = cloud.dev.sessions + cloud.oshu.sessions;
     el('sessionCount').textContent = totalSessions;
     el('sbSessions').textContent   = totalSessions;
     el('sbDiff').textContent = devLive !== oshuLive ? fmt(Math.abs(devLive - oshuLive)) : '—';
 
     ['dev','oshu'].forEach(u => {
-      const live = remote[u].totalSec + local[u].elapsed;
-      const pct  = Math.min(100, Math.round((live / GOAL) * 100));
-      el(`${u}Sessions`).textContent = remote[u].sessions;
-      el(`${u}Longest`).textContent  = remote[u].longest > 0 ? fmtShort(remote[u].longest) : '—';
-      el(`${u}Streak`).textContent   = `🔥 ${remote[u].sessions}`;
+      const grand = cloud[u].totalSec + liveElapsed(u);
+      const pct   = Math.min(100, Math.round((grand / GOAL) * 100));
+      el(`${u}Sessions`).textContent = cloud[u].sessions;
+      el(`${u}Longest`).textContent  = cloud[u].longest > 0 ? fmtShort(cloud[u].longest) : '—';
+      el(`${u}Streak`).textContent   = `🔥 ${cloud[u].sessions}`;
       el(`${u}Pct`).textContent  = `${pct}%`;
       el(`${u}Bar`).style.width  = `${pct}%`;
     });
 
-    // leader
+    // Button states reflect cloud status
+    ['dev','oshu'].forEach(u => setButtons(u, cloud[u].status));
+
+    // Leader
     const badge = el('leaderBadge');
     badge.classList.remove('blue','pink');
     el('devCard').classList.remove('leading');
@@ -450,49 +480,41 @@
     }
   }
 
-  // ── FIRESTORE LISTENER ────────────────────────────────────────
+  // ── FIRESTORE REAL-TIME LISTENER ─────────────────────────────
+  // When Firestore updates (from either device), we update cloud state
+  // and re-render. Since startedAt is a shared timestamp, both devices
+  // calculate identical elapsed times from Date.now() - startedAt.
   onSnapshot(
     doc(db, 'study', today()),
     snap => {
-      el('syncDot').className = 'sync-dot connected';
+      el('syncDot').className    = 'sync-dot connected';
       el('syncLabel').textContent = 'Synced live with Firebase ✓';
-      if (!snap.exists()) { updateUI(); return; }
+      if (!snap.exists()) { render(); return; }
       const data = snap.data();
       ['dev','oshu'].forEach(u => {
         if (!data[u]) return;
-        // update totals only if we're not mid-session (avoids overwrite)
-        if (!local[u].running) {
-          remote[u].totalSec = data[u].totalSec || 0;
-          remote[u].sessions = data[u].sessions || 0;
-          remote[u].longest  = data[u].longest  || 0;
-        } else {
-          // only update sessions/longest from cloud, keep local totalSec base
-          remote[u].sessions = data[u].sessions || 0;
-          remote[u].longest  = data[u].longest  || 0;
-        }
-        // show other person's active status
-        if (!local[u].running || local[u].paused) {
-          el(`${u}Dot`).classList.toggle('active', !!data[u].running);
-        }
+        cloud[u] = { ...cloud[u], ...data[u] };
       });
-      updateUI();
+      render();
     },
     err => {
-      el('syncDot').className = 'sync-dot error';
-      el('syncLabel').textContent = 'Sync error — go to Firebase Console → Firestore → Rules and set read/write to true';
+      el('syncDot').className    = 'sync-dot error';
+      el('syncLabel').textContent = 'Sync error — check Firestore rules';
       console.error(err);
     }
   );
 
+  // ── TICK every second ────────────────────────────────────────
+  setInterval(render, 1000);
+
   // ── DATE ─────────────────────────────────────────────────────
-  const el = id => document.getElementById(id);
   const setDate = () => {
     el('dateDisplay').textContent = new Date().toLocaleDateString('en-US',
       { weekday:'long', year:'numeric', month:'long', day:'numeric' });
   };
   setDate();
   setInterval(setDate, 60000);
-  updateUI();
+  render();
 </script>
 
 <!-- ── PiP FLOATING WIDGET ──────────────────────────────────────── -->
