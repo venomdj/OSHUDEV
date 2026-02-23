@@ -1,1 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>StudySync</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+  <div class="container">
+    <h1>StudySync</h1>
+    <p class="subtitle">Study together. Compete together.</p>
+
+    <div class="timer-box">
+      <h2 id="timer">00:00:00</h2>
+      <button onclick="startTimer()">Start</button>
+      <button onclick="pauseTimer()">Pause</button>
+      <button onclick="stopTimer()">Stop</button>
+    </div>
+
+    <div class="stats">
+      <h3>Today's Total</h3>
+      <p id="todayTotal">0 hrs</p>
+
+      <h3>Leaderboard</h3>
+      <p>You: <span id="youHours">0</span> hrs</p>
+      <p>Partner: <span id="partnerHours">0</span> hrs</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
