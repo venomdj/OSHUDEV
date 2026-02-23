@@ -1,106 +1,131 @@
+/* ====== FONT ====== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
 body {
-  margin: 0;
-  font-family: Inter, sans-serif;
-  background: #0f172a;
-  color: white;
-}
-
-.app {
-  padding: 60px 80px;
-}
-
-.header h1 {
-  margin: 0;
-  font-size: 32px;
-}
-
-.header p {
-  margin-top: 6px;
-  color: #94a3b8;
-}
-
-.leader-banner {
-  margin-top: 30px;
-  padding: 15px;
-  background: linear-gradient(90deg, #7c2d12, #9333ea);
-  border-radius: 12px;
-  font-weight: 500;
-}
-
-.cards {
+  background: radial-gradient(circle at 20% 20%, #1a1d29, #0f1117 60%);
+  min-height: 100vh;
+  color: #e4e6eb;
   display: flex;
-  gap: 40px;
-  margin-top: 40px;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 24px;
 }
 
+/* ====== TITLE ====== */
+h1 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+#leaderBanner {
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.7;
+  margin-bottom: 40px;
+}
+
+/* ====== GRID ====== */
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  width: 100%;
+  max-width: 900px;
+}
+
+/* ====== CARD ====== */
 .card {
-  flex: 1;
-  background: #1e293b;
-  padding: 30px;
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px);
+  border-radius: 20px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
   transition: 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+/* ====== GLOW EFFECTS ====== */
+#youCard.leading {
+  box-shadow: 0 0 40px rgba(80, 140, 255, 0.25);
+}
+
+#herCard.leading {
+  box-shadow: 0 0 40px rgba(255, 120, 200, 0.25);
+}
+
+/* ====== CARD TITLE ====== */
 .card h2 {
-  margin-top: 0;
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 0.8;
 }
 
-.session-box {
-  margin-top: 20px;
-  padding: 25px;
-  border-radius: 14px;
-  text-align: center;
-}
-
-.session-box.blue {
-  background: linear-gradient(135deg, #3b82f6, #6366f1);
-}
-
-.session-box.purple {
-  background: linear-gradient(135deg, #9333ea, #c084fc);
-}
-
+/* ====== TIMER ====== */
 .timer {
-  font-size: 36px;
-  font-weight: bold;
+  font-size: 42px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* ====== TOTAL ====== */
+.total {
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+/* ====== BUTTONS ====== */
+.buttons {
+  display: flex;
+  gap: 12px;
   margin-top: 10px;
 }
 
-.total-box {
-  margin-top: 20px;
-  padding: 15px;
-  background: #334155;
-  border-radius: 10px;
-}
-
-.buttons {
-  margin-top: 20px;
-  display: flex;
-  gap: 10px;
-}
-
-.buttons button {
+button {
   flex: 1;
-  padding: 10px;
-  border-radius: 8px;
+  padding: 10px 0;
+  border-radius: 10px;
   border: none;
-  cursor: pointer;
+  font-size: 13px;
   font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
 
-.buttons button:nth-child(1) {
-  background: #22c55e;
+/* You buttons */
+#youCard button {
+  background: rgba(80, 140, 255, 0.15);
+  color: #7fa8ff;
 }
 
-.buttons button:nth-child(2) {
-  background: #facc15;
+#youCard button:hover {
+  background: rgba(80, 140, 255, 0.25);
 }
 
-.buttons button:nth-child(3) {
-  background: #ef4444;
-  color: white;
+/* Her buttons */
+#herCard button {
+  background: rgba(255, 120, 200, 0.15);
+  color: #ff8cd3;
 }
 
-.leading {
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+#herCard button:hover {
+  background: rgba(255, 120, 200, 0.25);
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
 }
