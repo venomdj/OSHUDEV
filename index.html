@@ -34,62 +34,7 @@
   </div>
 
 </div>
-<div class="app">
 
-  <div class="header">
-    <h1>Competitive Study Timer</h1>
-    <p>Grow together. Compete together.</p>
-  </div>
-
-  <div class="leader-banner" id="leaderBanner">
-    Loading leader...
-  </div>
-
-  <div class="cards">
-
-    <!-- YOU -->
-    <div class="card" id="youCard">
-      <h2>You</h2>
-
-      <div class="session-box blue">
-        <div class="label">Current Session</div>
-        <div class="timer" id="youTimer">00:00:00</div>
-      </div>
-
-      <div class="total-box">
-        Total: <span id="youTotal">00:00:00</span>
-      </div>
-
-      <div class="buttons">
-        <button onclick="startTimer('you')">Start</button>
-        <button onclick="pauseTimer('you')">Pause</button>
-        <button onclick="stopTimer('you')">Stop</button>
-      </div>
-    </div>
-
-    <!-- HER -->
-    <div class="card" id="herCard">
-      <h2>Her</h2>
-
-      <div class="session-box purple">
-        <div class="label">Current Session</div>
-        <div class="timer" id="herTimer">00:00:00</div>
-      </div>
-
-      <div class="total-box">
-        Total: <span id="herTotal">00:00:00</span>
-      </div>
-
-      <div class="buttons">
-        <button onclick="startTimer('her')">Start</button>
-        <button onclick="pauseTimer('her')">Pause</button>
-        <button onclick="stopTimer('her')">Stop</button>
-      </div>
-    </div>
-
-  </div>
-
-</div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
