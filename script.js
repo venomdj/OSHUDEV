@@ -72,10 +72,10 @@ function updateLeader() {
   document.getElementById("herCard").classList.remove("leading");
 
   if (you > her) {
-    banner.innerText = "You are leading today 💙";
+    banner.innerText = "Dev is leading 😏";
     document.getElementById("youCard").classList.add("leading");
   } else if (her > you) {
-    banner.innerText = "She is leading today 💜";
+    banner.innerText = "Oshu is leading 😾";
     document.getElementById("herCard").classList.add("leading");
   } else {
     banner.innerText = "It's a tie 🤝";
