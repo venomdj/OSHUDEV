@@ -1,60 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>StudySync</title>
+  <title>Competitive Study</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
-    <h1>StudySync</h1>
-    <p class="subtitle">Study together. Compete together.</p>
+<div class="app">
 
-    <div class="timer-box">
-      <h2 id="timer">00:00:00</h2>
-      <button onclick="startTimer()">Start</button>
-      <button onclick="pauseTimer()">Pause</button>
-      <button onclick="stopTimer()">Stop</button>
-    </div>
-
-    <div class="stats">
-      <h3>Today's Total</h3>
-      <p id="todayTotal">0 hrs</p>
-
-      <h3>Leaderboard</h3>
-
-<div class="leaderboard-row">
-  <span>You</span>
-  <span class="highlight" id="youHours">0.00</span>
-</div>
-
-<div class="leaderboard-row">
-  <span>Partner</span>
-  <span class="highlight" id="partnerHours">0.00</span>
-</div>
+  <div class="header">
+    <h1>Competitive Study Timer</h1>
+    <p>Grow together. Compete together.</p>
   </div>
 
-  <!-- Firebase (Compat Version) -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <div class="leader-banner" id="leaderBanner">
+    Loading leader...
+  </div>
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyCVS5CpNPA5Ze9XDVFCw-ngeZNo1KzaZYY",
-      authDomain: "oshudev-333.firebaseapp.com",
-      projectId: "oshudev-333",
-      storageBucket: "oshudev-333.firebasestorage.app",
-      messagingSenderId: "595314827472",
-      appId: "1:595314827472:web:84b1e034f4b3a6e5523ed5",
-      measurementId: "G-XP7BMF09BD"
-    };
+  <div class="cards">
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-  </script>
+    <!-- YOU -->
+    <div class="card" id="youCard">
+      <h2>You</h2>
 
-  <script src="script.js"></script>
+      <div class="session-box blue">
+        <div class="label">Current Session</div>
+        <div class="timer" id="youTimer">00:00:00</div>
+      </div>
+
+      <div class="total-box">
+        Total: <span id="youTotal">00:00:00</span>
+      </div>
+
+      <div class="buttons">
+        <button onclick="startTimer('you')">Start</button>
+        <button onclick="pauseTimer('you')">Pause</button>
+        <button onclick="stopTimer('you')">Stop</button>
+      </div>
+    </div>
+
+    <!-- HER -->
+    <div class="card" id="herCard">
+      <h2>Her</h2>
+
+      <div class="session-box purple">
+        <div class="label">Current Session</div>
+        <div class="timer" id="herTimer">00:00:00</div>
+      </div>
+
+      <div class="total-box">
+        Total: <span id="herTotal">00:00:00</span>
+      </div>
+
+      <div class="buttons">
+        <button onclick="startTimer('her')">Start</button>
+        <button onclick="pauseTimer('her')">Pause</button>
+        <button onclick="stopTimer('her')">Stop</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCVS5CpNPA5Ze9XDVFCw-ngeZNo1KzaZYY",
+    authDomain: "oshudev-333.firebaseapp.com",
+    projectId: "oshudev-333",
+    storageBucket: "oshudev-333.firebasestorage.app",
+    messagingSenderId: "595314827472",
+    appId: "1:595314827472:web:84b1e034f4b3a6e5523ed5"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
+
+<script src="script.js"></script>
 
 </body>
 </html>
