@@ -1,52 +1,83 @@
-let timer;
-let seconds = 0;
-let running = false;
+// ===== STATE =====
+let timers = {
+  you: { seconds: 0, total: 0, interval: null, running: false },
+  her: { seconds: 0, total: 0, interval: null, running: false }
+};
 
-function updateDisplay() {
-  let hrs = Math.floor(seconds / 3600);
-  let mins = Math.floor((seconds % 3600) / 60);
-  let secs = seconds % 60;
-
-  document.getElementById("timer").innerText =
-    String(hrs).padStart(2, '0') + ":" +
-    String(mins).padStart(2, '0') + ":" +
-    String(secs).padStart(2, '0');
+// ===== FORMAT TIME =====
+function formatTime(sec) {
+  let h = String(Math.floor(sec / 3600)).padStart(2, '0');
+  let m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+  let s = String(sec % 60).padStart(2, '0');
+  return `${h}:${m}:${s}`;
 }
 
-function startTimer() {
-  if (!running) {
-    running = true;
-    timer = setInterval(() => {
-      seconds++;
-      updateDisplay();
-    }, 1000);
+// ===== START TIMER =====
+function startTimer(person) {
+  if (timers[person].running) return;
+
+  timers[person].running = true;
+
+  timers[person].interval = setInterval(() => {
+    timers[person].seconds++;
+    document.getElementById(person + "Timer").innerText =
+      formatTime(timers[person].seconds);
+  }, 1000);
+}
+
+// ===== PAUSE TIMER =====
+function pauseTimer(person) {
+  timers[person].running = false;
+  clearInterval(timers[person].interval);
+}
+
+// ===== STOP TIMER =====
+function stopTimer(person) {
+  clearInterval(timers[person].interval);
+  timers[person].running = false;
+
+  timers[person].total += timers[person].seconds;
+  timers[person].seconds = 0;
+
+  document.getElementById(person + "Timer").innerText = "00:00:00";
+
+  // Save to Firestore
+  db.collection("study").doc(person).set({
+    total: timers[person].total
+  });
+
+  updateLeader();
+}
+
+// ===== REALTIME LISTENER =====
+db.collection("study").onSnapshot(snapshot => {
+  snapshot.forEach(doc => {
+    let person = doc.id;
+    timers[person].total = doc.data().total || 0;
+
+    document.getElementById(person + "Total").innerText =
+      formatTime(timers[person].total);
+  });
+
+  updateLeader();
+});
+
+// ===== LEADER LOGIC =====
+function updateLeader() {
+  let banner = document.getElementById("leaderBanner");
+  let you = timers.you.total;
+  let her = timers.her.total;
+
+  document.getElementById("youCard").classList.remove("leading");
+  document.getElementById("herCard").classList.remove("leading");
+
+  if (you > her) {
+    banner.innerText = "You are leading today 💙";
+    document.getElementById("youCard").classList.add("leading");
+  } else if (her > you) {
+    banner.innerText = "She is leading today 💜";
+    document.getElementById("herCard").classList.add("leading");
+  } else {
+    banner.innerText = "It's a tie 🤝";
   }
 }
-
-function pauseTimer() {
-  running = false;
-  clearInterval(timer);
-}
-
-function stopTimer() {
-  running = false;
-  clearInterval(timer);
-
-  let hoursStudied = (seconds / 3600).toFixed(2);
-
-  let previous = localStorage.getItem("myHours") || 0;
-  let total = parseFloat(previous) + parseFloat(hoursStudied);
-
-  localStorage.setItem("myHours", total);
-  document.getElementById("todayTotal").innerText = total.toFixed(2) + " hrs";
-  document.getElementById("youHours").innerText = total.toFixed(2);
-
-  seconds = 0;
-  updateDisplay();
-}
-
-window.onload = function() {
-  let stored = localStorage.getItem("myHours") || 0;
-  document.getElementById("todayTotal").innerText = parseFloat(stored).toFixed(2) + " hrs";
-  document.getElementById("youHours").innerText = parseFloat(stored).toFixed(2);
-};
