@@ -494,6 +494,193 @@
   setInterval(setDate, 60000);
   updateUI();
 </script>
+
+<!-- ── PiP FLOATING WIDGET ──────────────────────────────────────── -->
+<style>
+  .pip {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    z-index: 9999;
+    background: rgba(13,13,15,0.94);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 14px 18px;
+    backdrop-filter: blur(24px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    cursor: grab;
+    user-select: none;
+    min-width: 210px;
+    transition: box-shadow 0.2s, opacity 0.2s;
+  }
+  .pip:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.6); }
+  .pip.dragging { cursor: grabbing; opacity: 0.9; }
+  .pip.minimized .pip-body { display: none; }
+  .pip.minimized { min-width: unset; padding: 10px 14px; }
+
+  .pip-header {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px; gap: 12px;
+  }
+  .pip.minimized .pip-header { margin-bottom: 0; }
+  .pip-title {
+    font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(255,255,255,0.3);
+    font-family: 'Inter', sans-serif; font-weight: 500;
+  }
+  .pip-controls { display: flex; gap: 5px; }
+  .pip-btn {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: none; cursor: pointer; font-size: 11px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.4);
+    transition: all 0.2s; line-height: 1;
+  }
+  .pip-btn:hover { background: rgba(255,255,255,0.15); color: white; }
+
+  .pip-body { display: flex; flex-direction: column; gap: 9px; }
+  .pip-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+
+  .pip-name {
+    font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600;
+    display: flex; align-items: center; gap: 7px;
+    color: rgba(255,255,255,0.7); min-width: 44px;
+  }
+  .pip-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.15); flex-shrink: 0; transition: all 0.3s;
+  }
+  .pip-dot.on { animation: pipblink 1.5s infinite; }
+  .pip-dev-row  .pip-dot.on { background: #4f8ef7; box-shadow: 0 0 5px #4f8ef7; }
+  .pip-oshu-row .pip-dot.on { background: #f76fa0; box-shadow: 0 0 5px #f76fa0; }
+
+  .pip-time {
+    font-family: 'JetBrains Mono', monospace; font-size: 15px;
+    font-weight: 500; color: rgba(255,255,255,0.85);
+    letter-spacing: -0.01em; transition: color 0.3s;
+  }
+  .pip-dev-row  .pip-time.on { color: #4f8ef7; }
+  .pip-oshu-row .pip-time.on { color: #f76fa0; }
+
+  .pip-divider { height: 1px; background: rgba(255,255,255,0.05); }
+  .pip-footer {
+    font-size: 10px; color: rgba(255,255,255,0.25);
+    font-family: 'Inter', sans-serif; text-align: center; margin-top: 1px;
+  }
+
+  @keyframes pipblink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+  #pipRestoreBtn {
+    display: none; position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+    background: rgba(13,13,15,0.92); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px; padding: 9px 18px; color: rgba(255,255,255,0.5);
+    font-family: 'Inter', sans-serif; font-size: 12px; cursor: pointer;
+    backdrop-filter: blur(20px); transition: all 0.2s; font-weight: 500;
+  }
+  #pipRestoreBtn:hover { color: white; border-color: rgba(255,255,255,0.2); }
+</style>
+
+<!-- PiP Widget HTML -->
+<div class="pip" id="pip">
+  <div class="pip-header">
+    <span class="pip-title">⏱ Study Timer</span>
+    <div class="pip-controls">
+      <button class="pip-btn" id="pipMinBtn" title="Minimize">−</button>
+      <button class="pip-btn" id="pipCloseBtn" title="Hide">×</button>
+    </div>
+  </div>
+  <div class="pip-body">
+    <div class="pip-row pip-dev-row">
+      <span class="pip-name"><span class="pip-dot" id="pipDevDot"></span>Dev</span>
+      <span class="pip-time" id="pipDevTime">00:00:00</span>
+    </div>
+    <div class="pip-divider"></div>
+    <div class="pip-row pip-oshu-row">
+      <span class="pip-name"><span class="pip-dot" id="pipOshuDot"></span>Oshu</span>
+      <span class="pip-time" id="pipOshuTime">00:00:00</span>
+    </div>
+    <div class="pip-footer" id="pipLeader">Start studying to lead</div>
+  </div>
+</div>
+
+<button id="pipRestoreBtn">⏱ Show Timer</button>
+
+<script>
+  const pip       = document.getElementById('pip');
+  const pipMin    = document.getElementById('pipMinBtn');
+  const pipClose  = document.getElementById('pipCloseBtn');
+  const pipRestore= document.getElementById('pipRestoreBtn');
+
+  pipMin.addEventListener('click', e => {
+    e.stopPropagation();
+    pip.classList.toggle('minimized');
+    pipMin.textContent = pip.classList.contains('minimized') ? '+' : '−';
+  });
+
+  pipClose.addEventListener('click', e => {
+    e.stopPropagation();
+    pip.style.display = 'none';
+    pipRestore.style.display = 'block';
+  });
+
+  pipRestore.addEventListener('click', () => {
+    pip.style.display = 'block';
+    pipRestore.style.display = 'none';
+  });
+
+  // Drag logic
+  let drag = false, sx, sy, ix, iy;
+  pip.addEventListener('mousedown', e => {
+    if (e.target.classList.contains('pip-btn')) return;
+    drag = true; pip.classList.add('dragging');
+    sx = e.clientX; sy = e.clientY;
+    const r = pip.getBoundingClientRect();
+    ix = r.left; iy = r.top;
+  });
+  document.addEventListener('mousemove', e => {
+    if (!drag) return;
+    pip.style.left = `${ix + e.clientX - sx}px`;
+    pip.style.top  = `${iy + e.clientY - sy}px`;
+    pip.style.right = 'unset'; pip.style.bottom = 'unset';
+  });
+  document.addEventListener('mouseup', () => { drag = false; pip.classList.remove('dragging'); });
+
+  // Touch drag
+  pip.addEventListener('touchstart', e => {
+    if (e.target.classList.contains('pip-btn')) return;
+    const t = e.touches[0]; drag = true;
+    sx = t.clientX; sy = t.clientY;
+    const r = pip.getBoundingClientRect(); ix = r.left; iy = r.top;
+  }, {passive:true});
+  document.addEventListener('touchmove', e => {
+    if (!drag) return;
+    const t = e.touches[0];
+    pip.style.left = `${ix + t.clientX - sx}px`;
+    pip.style.top  = `${iy + t.clientY - sy}px`;
+    pip.style.right = 'unset'; pip.style.bottom = 'unset';
+  }, {passive:true});
+  document.addEventListener('touchend', () => { drag = false; });
+
+  // Sync PiP with main timers every second
+  function syncPip() {
+    const devTime  = document.getElementById('devTimer')?.textContent  || '00:00:00';
+    const oshuTime = document.getElementById('oshuTimer')?.textContent || '00:00:00';
+    const devOn    = document.getElementById('devDot')?.classList.contains('on');
+    const oshuOn   = document.getElementById('oshuDot')?.classList.contains('on');
+    const leader   = document.getElementById('leaderText')?.textContent || '—';
+
+    document.getElementById('pipDevTime').textContent  = devTime;
+    document.getElementById('pipOshuTime').textContent = oshuTime;
+    document.getElementById('pipLeader').textContent   = leader;
+    document.getElementById('pipDevTime').classList.toggle('on', !!devOn);
+    document.getElementById('pipOshuTime').classList.toggle('on', !!oshuOn);
+    document.getElementById('pipDevDot').classList.toggle('on', !!devOn);
+    document.getElementById('pipOshuDot').classList.toggle('on', !!oshuOn);
+  }
+
+  setInterval(syncPip, 1000);
+  syncPip();
+</script>
 </body>
 </html>
 
