@@ -27,6 +27,25 @@
       <p>Partner: <span id="partnerHours">0</span> hrs</p>
     </div>
   </div>
+  <!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+
+<script>
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCVS5CpNPA5Ze9XDVFCw-ngeZNo1KzaZYY",
+  authDomain: "oshudev-333.firebaseapp.com",
+  projectId: "oshudev-333",
+  storageBucket: "oshudev-333.firebasestorage.app",
+  messagingSenderId: "595314827472",
+  appId: "1:595314827472:web:84b1e034f4b3a6e5523ed5",
+  measurementId: "G-XP7BMF09BD"
+};
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
 
   <script src="script.js"></script>
 </body>
