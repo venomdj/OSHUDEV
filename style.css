@@ -1,8 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #f7f6f3;
+  --card: #ffffff;
+  --text: #2f2f2f;
+  --subtle: #7a7a7a;
+  --accent: #d4a5a5;
+  --accent-hover: #c48f8f;
+  --border: #e8e6e3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #0f172a;
-  color: white;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,37 +26,83 @@ body {
 }
 
 .container {
-  background: #1e293b;
-  padding: 40px;
-  border-radius: 16px;
-  width: 350px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  width: 420px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 40px 35px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
 }
 
 h1 {
-  margin-bottom: 5px;
+  margin: 0;
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: -0.3px;
 }
 
 .subtitle {
-  color: #94a3b8;
-  margin-bottom: 30px;
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--subtle);
+  margin-bottom: 35px;
+}
+
+.timer-box {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+#timer {
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
 }
 
 .timer-box button {
-  margin: 5px;
-  padding: 8px 14px;
+  padding: 10px 16px;
+  margin: 4px;
+  border-radius: 10px;
   border: none;
-  border-radius: 8px;
-  background: #3b82f6;
-  color: white;
+  font-weight: 500;
+  font-size: 14px;
   cursor: pointer;
+  background: var(--accent);
+  color: white;
+  transition: 0.2s ease;
 }
 
 .timer-box button:hover {
-  background: #2563eb;
+  background: var(--accent-hover);
 }
 
 .stats {
-  margin-top: 25px;
+  border-top: 1px solid var(--border);
+  padding-top: 25px;
+}
+
+.stats h3 {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--subtle);
+}
+
+#todayTotal {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.leaderboard-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.highlight {
+  font-weight: 600;
 }
