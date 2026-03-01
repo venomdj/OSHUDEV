@@ -1023,41 +1023,6 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 
 </div><!-- /wrapper -->
 
-<!-- PiP WIDGET -->
-<div class="pip" id="pip">
-  <div class="pip-header">
-    <span class="pip-title">⏱ Study Timer</span>
-    <div class="pip-controls">
-      <button class="pip-btn" id="pipMinBtn" title="Minimize">−</button>
-      <button class="pip-btn" id="pipCloseBtn" title="Hide">×</button>
-    </div>
-  </div>
-  <div class="pip-body">
-    <div class="pip-row pip-dev-row">
-      <span class="pip-name"><span class="pip-dot" id="pipDevDot"></span>Dev</span>
-      <span class="pip-time" id="pipDevTime">00:00:00</span>
-    </div>
-    <div class="pip-divider"></div>
-    <div class="pip-row pip-oshu-row">
-      <span class="pip-name"><span class="pip-dot" id="pipOshuDot"></span>Oshu</span>
-      <span class="pip-time" id="pipOshuTime">00:00:00</span>
-    </div>
-    <div class="pip-divider"></div>
-    <div class="pip-row pip-hanan-row">
-      <span class="pip-name"><span class="pip-dot" id="pipHananDot"></span>Hanan</span>
-      <span class="pip-time" id="pipHananTime">00:00:00</span>
-    </div>
-    <div class="pip-divider"></div>
-    <div class="pip-row pip-hwoman-row">
-      <span class="pip-name"><span class="pip-dot" id="pipHwomanDot"></span>H's Woman</span>
-      <span class="pip-time" id="pipHwomanTime">00:00:00</span>
-    </div>
-    <div class="pip-footer" id="pipLeader">Start studying to lead</div>
-  </div>
-</div>
-
-<button id="pipRestoreBtn">⏱ Show Timer</button>
-
 <!-- TIMER EDIT MODAL -->
 <div class="modal-overlay" id="editModal">
   <div class="modal-box">
@@ -1294,15 +1259,6 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
       checkLeadChangeNotif(currentLeader);
     }
     if (currentLeader !== null) prevLeader = currentLeader;
-
-    // PiP
-    ALL.forEach(u => {
-      const pipId = u === 'hwoman' ? 'Hwoman' : u.charAt(0).toUpperCase() + u.slice(1);
-      el(`pip${pipId}Time`).textContent = fmt(liveElapsed(u));
-      el(`pip${pipId}Time`).classList.toggle('on', cloud[u].status === 'running');
-      el(`pip${pipId}Dot`).classList.toggle('on',  cloud[u].status === 'running');
-    });
-    el('pipLeader').textContent = el('leaderText').textContent;
   }
 
   // ── FIRESTORE LISTENER ───────────────────────────────────────
@@ -1738,7 +1694,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   setTimeout(loadWeeklyData, 2000);
 </script>
 
-<!-- TAB & PiP JS -->
+<!-- TAB JS -->
 <script>
   function switchTab(name) {
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -1749,55 +1705,6 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
       setTimeout(() => window._loadWeeklyData?.(), 100);
     }
   }
-
-  // PiP
-  const pip       = document.getElementById('pip');
-  const pipMin    = document.getElementById('pipMinBtn');
-  const pipClose  = document.getElementById('pipCloseBtn');
-  const pipRestore= document.getElementById('pipRestoreBtn');
-
-  pipMin.addEventListener('click', e => {
-    e.stopPropagation();
-    pip.classList.toggle('minimized');
-    pipMin.textContent = pip.classList.contains('minimized') ? '+' : '−';
-  });
-  pipClose.addEventListener('click', e => {
-    e.stopPropagation();
-    pip.style.display = 'none';
-    pipRestore.style.display = 'block';
-  });
-  pipRestore.addEventListener('click', () => {
-    pip.style.display = 'block';
-    pipRestore.style.display = 'none';
-  });
-
-  let drag=false, sx, sy, ix, iy;
-  pip.addEventListener('mousedown', e => {
-    if (e.target.classList.contains('pip-btn')) return;
-    drag=true; pip.classList.add('dragging');
-    sx=e.clientX; sy=e.clientY;
-    const r=pip.getBoundingClientRect(); ix=r.left; iy=r.top;
-  });
-  document.addEventListener('mousemove', e => {
-    if (!drag) return;
-    pip.style.left=`${ix+e.clientX-sx}px`; pip.style.top=`${iy+e.clientY-sy}px`;
-    pip.style.right='unset'; pip.style.bottom='unset';
-  });
-  document.addEventListener('mouseup', () => { drag=false; pip.classList.remove('dragging'); });
-
-  pip.addEventListener('touchstart', e => {
-    if (e.target.classList.contains('pip-btn')) return;
-    const t=e.touches[0]; drag=true;
-    sx=t.clientX; sy=t.clientY;
-    const r=pip.getBoundingClientRect(); ix=r.left; iy=r.top;
-  }, {passive:true});
-  document.addEventListener('touchmove', e => {
-    if (!drag) return;
-    const t=e.touches[0];
-    pip.style.left=`${ix+t.clientX-sx}px`; pip.style.top=`${iy+t.clientY-sy}px`;
-    pip.style.right='unset'; pip.style.bottom='unset';
-  }, {passive:true});
-  document.addEventListener('touchend', () => { drag=false; });
 </script>
 </body>
 </html>
