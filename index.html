@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Study Dashboard — Dev & Oshu</title>
+<title>Study Dashboard — Dev, Oshu, Hanan & Co.</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -25,6 +25,12 @@
   --pink:        #f76fa0;
   --pink-soft:   rgba(247,111,160,0.10);
   --pink-btn:    rgba(247,111,160,0.13);
+  --lblue:       #7dd3fc;
+  --lblue-soft:  rgba(125,211,252,0.12);
+  --lblue-btn:   rgba(125,211,252,0.14);
+  --lpink:       #f9a8d4;
+  --lpink-soft:  rgba(249,168,212,0.12);
+  --lpink-btn:   rgba(249,168,212,0.14);
   --green:       #4ade80;
   --amber:       #f59e0b;
   --radius-card: 20px;
@@ -43,7 +49,6 @@ body {
   padding: 40px 20px 80px;
   overflow-x: hidden;
   position: relative;
-  transition: background 2.5s ease;
 }
 
 body::before {
@@ -57,19 +62,8 @@ body::before {
 }
 
 .orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
-.orb-blue { width: 600px; height: 600px; background: rgba(79,142,247,0.06); top: -200px; left: -150px; transition: opacity 1.5s ease; }
-.orb-pink { width: 500px; height: 500px; background: rgba(247,111,160,0.055); bottom: -100px; right: -100px; transition: opacity 1.5s ease; }
-
-@keyframes breathe-blue {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 2.2; transform: scale(1.18); }
-}
-@keyframes breathe-pink {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 2.0; transform: scale(1.18); }
-}
-.orb-blue.leading { animation: breathe-blue 4s ease-in-out infinite; background: rgba(79,142,247,0.11); }
-.orb-pink.leading { animation: breathe-pink 4s ease-in-out infinite; background: rgba(247,111,160,0.10); }
+.orb-blue { width: 600px; height: 600px; background: rgba(79,142,247,0.06); top: -200px; left: -150px; }
+.orb-pink { width: 500px; height: 500px; background: rgba(247,111,160,0.055); bottom: -100px; right: -100px; }
 
 .wrapper { position: relative; z-index: 1; width: 100%; max-width: 980px; }
 
@@ -143,7 +137,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 .notif-banner button:hover { opacity: 1; }
 
 /* CARDS */
-.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; animation: fadeUp 0.5s 0.2s ease both; }
+.cards { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 18px; margin-bottom: 18px; animation: fadeUp 0.5s 0.2s ease both; }
 
 .card {
   background: var(--surface); border: 1px solid var(--border);
@@ -152,21 +146,29 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   transition: border-color var(--transition), box-shadow var(--transition);
 }
 .card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; opacity:0.5; }
-.card.blue-card::before { background: linear-gradient(90deg,transparent,var(--blue),transparent); }
-.card.pink-card::before { background: linear-gradient(90deg,transparent,var(--pink),transparent); }
-.card.blue-card.leading { box-shadow: 0 0 0 1px rgba(79,142,247,0.15), 0 8px 48px rgba(79,142,247,0.1); border-color: var(--border-h); }
-.card.pink-card.leading { box-shadow: 0 0 0 1px rgba(247,111,160,0.15), 0 8px 48px rgba(247,111,160,0.1); border-color: var(--border-h); }
+.card.blue-card::before  { background: linear-gradient(90deg,transparent,var(--blue),transparent); }
+.card.pink-card::before  { background: linear-gradient(90deg,transparent,var(--pink),transparent); }
+.card.lblue-card::before { background: linear-gradient(90deg,transparent,var(--lblue),transparent); }
+.card.lpink-card::before { background: linear-gradient(90deg,transparent,var(--lpink),transparent); }
+.card.blue-card.leading  { box-shadow: 0 0 0 1px rgba(79,142,247,0.15),  0 8px 48px rgba(79,142,247,0.1);  border-color: var(--border-h); }
+.card.pink-card.leading  { box-shadow: 0 0 0 1px rgba(247,111,160,0.15), 0 8px 48px rgba(247,111,160,0.1); border-color: var(--border-h); }
+.card.lblue-card.leading { box-shadow: 0 0 0 1px rgba(125,211,252,0.15), 0 8px 48px rgba(125,211,252,0.1); border-color: var(--border-h); }
+.card.lpink-card.leading { box-shadow: 0 0 0 1px rgba(249,168,212,0.15), 0 8px 48px rgba(249,168,212,0.1); border-color: var(--border-h); }
 
 .card-glow { position:absolute; width:200px; height:200px; border-radius:50%; filter:blur(60px); pointer-events:none; bottom:-60px; right:-40px; opacity:0; transition:opacity 0.6s ease; }
-.blue-card .card-glow  { background: rgba(79,142,247,0.15); }
-.pink-card .card-glow  { background: rgba(247,111,160,0.13); }
+.blue-card  .card-glow { background: rgba(79,142,247,0.15); }
+.pink-card  .card-glow { background: rgba(247,111,160,0.13); }
+.lblue-card .card-glow { background: rgba(125,211,252,0.13); }
+.lpink-card .card-glow { background: rgba(249,168,212,0.13); }
 .card.leading .card-glow { opacity:1; }
 
 .card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; }
 .card-identity { display:flex; align-items:center; gap:12px; }
 .avatar { width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:17px; font-weight:600; }
-.blue-card .avatar { background:var(--blue-soft); color:var(--blue); border:1px solid rgba(79,142,247,0.2); }
-.pink-card .avatar { background:var(--pink-soft); color:var(--pink); border:1px solid rgba(247,111,160,0.2); }
+.blue-card  .avatar { background:var(--blue-soft);  color:var(--blue);  border:1px solid rgba(79,142,247,0.2); }
+.pink-card  .avatar { background:var(--pink-soft);  color:var(--pink);  border:1px solid rgba(247,111,160,0.2); }
+.lblue-card .avatar { background:var(--lblue-soft); color:var(--lblue); border:1px solid rgba(125,211,252,0.2); }
+.lpink-card .avatar { background:var(--lpink-soft); color:var(--lpink); border:1px solid rgba(249,168,212,0.2); }
 .card-name { font-size:15px; font-weight:600; letter-spacing:-0.01em; }
 .card-sub  { font-size:11px; color:var(--text-3); margin-top:1px; }
 
@@ -174,42 +176,68 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 .status-dot.active { background:var(--green); box-shadow:0 0 6px var(--green); animation:blink 1.5s ease-in-out infinite; }
 
 .timer-block { text-align:center; margin-bottom:20px; }
-.timer-display { font-family:'JetBrains Mono',monospace; font-size:clamp(34px,5.5vw,52px); font-weight:500; letter-spacing:-0.02em; line-height:1; margin-bottom:8px; transition:color 0.3s; }
-.blue-card .timer-display.running { color:var(--blue); }
-.pink-card .timer-display.running { color:var(--pink); }
+.timer-display { font-family:'JetBrains Mono',monospace; font-size:clamp(28px,3.5vw,52px); font-weight:500; letter-spacing:-0.02em; line-height:1; margin-bottom:8px; transition:color 0.3s; }
+.blue-card  .timer-display.running { color:var(--blue); }
+.pink-card  .timer-display.running { color:var(--pink); }
+.lblue-card .timer-display.running { color:var(--lblue); }
+.lpink-card .timer-display.running { color:var(--lpink); }
 .total-label { font-size:12px; color:var(--text-3); display:flex; align-items:center; justify-content:center; gap:6px; }
 .total-label strong { color:var(--text-2); font-family:'JetBrains Mono',monospace; font-size:12px; }
 
-.session-info { display:flex; justify-content:center; gap:10px; margin-bottom:22px; flex-wrap:wrap; }
-.stat-chip { display:flex; flex-direction:column; align-items:center; gap:3px; background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:8px 14px; min-width:64px; }
-.stat-chip .stat-val { font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:500; }
-.stat-chip .stat-key { font-size:10px; color:var(--text-3); letter-spacing:0.08em; text-transform:uppercase; }
+.session-info { display:flex; justify-content:center; gap:8px; margin-bottom:22px; flex-wrap:wrap; }
+.stat-chip { display:flex; flex-direction:column; align-items:center; gap:3px; background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:8px 10px; min-width:56px; }
+.stat-chip .stat-val { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:500; }
+.stat-chip .stat-key { font-size:9px; color:var(--text-3); letter-spacing:0.08em; text-transform:uppercase; }
 
 .progress-section { margin-bottom:18px; }
 .progress-header { display:flex; justify-content:space-between; font-size:11px; color:var(--text-3); margin-bottom:7px; font-weight:500; letter-spacing:0.05em; text-transform:uppercase; }
 .progress-track { height:4px; background:var(--surface2); border-radius:100px; overflow:hidden; }
 .progress-fill { height:100%; border-radius:100px; transition:width 1s ease; }
-.blue-card .progress-fill { background:linear-gradient(90deg,rgba(79,142,247,0.5),var(--blue)); }
-.pink-card .progress-fill { background:linear-gradient(90deg,rgba(247,111,160,0.5),var(--pink)); }
+.blue-card  .progress-fill { background:linear-gradient(90deg,rgba(79,142,247,0.5),var(--blue)); }
+.pink-card  .progress-fill { background:linear-gradient(90deg,rgba(247,111,160,0.5),var(--pink)); }
+.lblue-card .progress-fill { background:linear-gradient(90deg,rgba(125,211,252,0.5),var(--lblue)); }
+.lpink-card .progress-fill { background:linear-gradient(90deg,rgba(249,168,212,0.5),var(--lpink)); }
 
-.btn-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px; }
-.btn { border:none; border-radius:var(--radius-btn); padding:10px 0; font-family:'Inter',sans-serif; font-size:13px; font-weight:500; cursor:pointer; transition:all var(--transition); }
+.btn-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px; }
+.btn { border:none; border-radius:var(--radius-btn); padding:9px 0; font-family:'Inter',sans-serif; font-size:12px; font-weight:500; cursor:pointer; transition:all var(--transition); }
 .btn:active { transform:scale(0.97); }
 
-.blue-card .btn-start { background:var(--blue-btn); color:var(--blue); border:1px solid rgba(79,142,247,0.2); }
-.blue-card .btn-start:hover:not(:disabled) { background:rgba(79,142,247,0.22); box-shadow:0 0 16px rgba(79,142,247,0.15); transform:translateY(-1px); }
-.blue-card .btn-pause { background:var(--surface2); color:var(--text-2); border:1px solid var(--border); }
-.blue-card .btn-pause:hover:not(:disabled) { background:rgba(79,142,247,0.08); color:var(--blue); border-color:rgba(79,142,247,0.15); transform:translateY(-1px); }
-.blue-card .btn-stop  { background:var(--surface2); color:var(--text-3); border:1px solid var(--border); }
-.blue-card .btn-stop:hover:not(:disabled)  { background:rgba(255,80,80,0.08); color:#ff6060; border-color:rgba(255,80,80,0.15); transform:translateY(-1px); }
+.blue-card  .btn-start { background:var(--blue-btn);  color:var(--blue);  border:1px solid rgba(79,142,247,0.2); }
+.blue-card  .btn-start:hover:not(:disabled) { background:rgba(79,142,247,0.22);  box-shadow:0 0 16px rgba(79,142,247,0.15);  transform:translateY(-1px); }
+.blue-card  .btn-pause { background:var(--surface2); color:var(--text-2); border:1px solid var(--border); }
+.blue-card  .btn-pause:hover:not(:disabled) { background:rgba(79,142,247,0.08);  color:var(--blue);  border-color:rgba(79,142,247,0.15);  transform:translateY(-1px); }
+.blue-card  .btn-stop  { background:var(--surface2); color:var(--text-3); border:1px solid var(--border); }
+.blue-card  .btn-stop:hover:not(:disabled)  { background:rgba(255,80,80,0.08); color:#ff6060; border-color:rgba(255,80,80,0.15); transform:translateY(-1px); }
 
-.pink-card .btn-start { background:var(--pink-btn); color:var(--pink); border:1px solid rgba(247,111,160,0.2); }
-.pink-card .btn-start:hover:not(:disabled) { background:rgba(247,111,160,0.22); box-shadow:0 0 16px rgba(247,111,160,0.15); transform:translateY(-1px); }
-.pink-card .btn-pause { background:var(--surface2); color:var(--text-2); border:1px solid var(--border); }
-.pink-card .btn-pause:hover:not(:disabled) { background:rgba(247,111,160,0.08); color:var(--pink); border-color:rgba(247,111,160,0.15); transform:translateY(-1px); }
-.pink-card .btn-stop  { background:var(--surface2); color:var(--text-3); border:1px solid var(--border); }
-.pink-card .btn-stop:hover:not(:disabled)  { background:rgba(255,80,80,0.08); color:#ff6060; border-color:rgba(255,80,80,0.15); transform:translateY(-1px); }
+.pink-card  .btn-start { background:var(--pink-btn);  color:var(--pink);  border:1px solid rgba(247,111,160,0.2); }
+.pink-card  .btn-start:hover:not(:disabled) { background:rgba(247,111,160,0.22); box-shadow:0 0 16px rgba(247,111,160,0.15); transform:translateY(-1px); }
+.pink-card  .btn-pause { background:var(--surface2); color:var(--text-2); border:1px solid var(--border); }
+.pink-card  .btn-pause:hover:not(:disabled) { background:rgba(247,111,160,0.08); color:var(--pink);  border-color:rgba(247,111,160,0.15); transform:translateY(-1px); }
+.pink-card  .btn-stop  { background:var(--surface2); color:var(--text-3); border:1px solid var(--border); }
+.pink-card  .btn-stop:hover:not(:disabled)  { background:rgba(255,80,80,0.08); color:#ff6060; border-color:rgba(255,80,80,0.15); transform:translateY(-1px); }
+
+.lblue-card .btn-start { background:var(--lblue-btn); color:var(--lblue); border:1px solid rgba(125,211,252,0.2); }
+.lblue-card .btn-start:hover:not(:disabled) { background:rgba(125,211,252,0.22); box-shadow:0 0 16px rgba(125,211,252,0.15); transform:translateY(-1px); }
+.lblue-card .btn-pause { background:var(--surface2); color:var(--text-2); border:1px solid var(--border); }
+.lblue-card .btn-pause:hover:not(:disabled) { background:rgba(125,211,252,0.08); color:var(--lblue); border-color:rgba(125,211,252,0.15); transform:translateY(-1px); }
+.lblue-card .btn-stop  { background:var(--surface2); color:var(--text-3); border:1px solid var(--border); }
+.lblue-card .btn-stop:hover:not(:disabled)  { background:rgba(255,80,80,0.08); color:#ff6060; border-color:rgba(255,80,80,0.15); transform:translateY(-1px); }
+
+.lpink-card .btn-start { background:var(--lpink-btn); color:var(--lpink); border:1px solid rgba(249,168,212,0.2); }
+.lpink-card .btn-start:hover:not(:disabled) { background:rgba(249,168,212,0.22); box-shadow:0 0 16px rgba(249,168,212,0.15); transform:translateY(-1px); }
+.lpink-card .btn-pause { background:var(--surface2); color:var(--text-2); border:1px solid var(--border); }
+.lpink-card .btn-pause:hover:not(:disabled) { background:rgba(249,168,212,0.08); color:var(--lpink); border-color:rgba(249,168,212,0.15); transform:translateY(-1px); }
+.lpink-card .btn-stop  { background:var(--surface2); color:var(--text-3); border:1px solid var(--border); }
+.lpink-card .btn-stop:hover:not(:disabled)  { background:rgba(255,80,80,0.08); color:#ff6060; border-color:rgba(255,80,80,0.15); transform:translateY(-1px); }
 .btn:disabled { opacity:0.3; cursor:not-allowed; transform:none !important; box-shadow:none !important; }
+
+/* note btn colors */
+.lblue-card .note-send-btn { background:var(--lblue-btn); color:var(--lblue); border:1px solid rgba(125,211,252,0.2); }
+.lblue-card .note-send-btn:hover { background:rgba(125,211,252,0.22); }
+.lpink-card .note-send-btn { background:var(--lpink-btn); color:var(--lpink); border:1px solid rgba(249,168,212,0.2); }
+.lpink-card .note-send-btn:hover { background:rgba(249,168,212,0.22); }
+.lblue-card .note-input:focus { border-color:rgba(125,211,252,0.4); }
+.lpink-card .note-input:focus { border-color:rgba(249,168,212,0.4); }
 
 /* STATS BAR */
 .stats-bar { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-card); padding:18px 28px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; animation:fadeUp 0.5s 0.3s ease both; }
@@ -291,8 +319,12 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   transition:all 0.2s;
 }
 .modal-btn-row .btn-confirm:hover { background:rgba(79,142,247,0.22); }
-.modal-btn-row .btn-confirm.pink { background:var(--pink-btn); color:var(--pink); border-color:rgba(247,111,160,0.2); }
-.modal-btn-row .btn-confirm.pink:hover { background:rgba(247,111,160,0.22); }
+.modal-btn-row .btn-confirm.pink  { background:var(--pink-btn);  color:var(--pink);  border-color:rgba(247,111,160,0.2); }
+.modal-btn-row .btn-confirm.pink:hover  { background:rgba(247,111,160,0.22); }
+.modal-btn-row .btn-confirm.lblue { background:var(--lblue-btn); color:var(--lblue); border-color:rgba(125,211,252,0.2); }
+.modal-btn-row .btn-confirm.lblue:hover { background:rgba(125,211,252,0.22); }
+.modal-btn-row .btn-confirm.lpink { background:var(--lpink-btn); color:var(--lpink); border-color:rgba(249,168,212,0.2); }
+.modal-btn-row .btn-confirm.lpink:hover { background:rgba(249,168,212,0.22); }
 .modal-btn-row .btn-cancel-m {
   border:none; border-radius:10px; padding:11px 16px; cursor:pointer;
   font-family:'Inter',sans-serif; font-size:13px; background:var(--surface2);
@@ -308,33 +340,41 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 }
 .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
 
-.weekly-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+.weekly-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 18px; margin-bottom: 18px; }
 
 .weekly-card {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius-card); padding: 24px;
   position: relative; overflow: hidden;
 }
-.weekly-card.blue-weekly { border-top: 2px solid rgba(79,142,247,0.3); }
-.weekly-card.pink-weekly { border-top: 2px solid rgba(247,111,160,0.3); }
+.weekly-card.blue-weekly  { border-top: 2px solid rgba(79,142,247,0.3); }
+.weekly-card.pink-weekly  { border-top: 2px solid rgba(247,111,160,0.3); }
+.weekly-card.lblue-weekly { border-top: 2px solid rgba(125,211,252,0.3); }
+.weekly-card.lpink-weekly { border-top: 2px solid rgba(249,168,212,0.3); }
 
 .weekly-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
 .weekly-name { font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px; }
 .weekly-name .wk-avatar { width:32px; height:32px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; }
-.blue-weekly .wk-avatar { background:var(--blue-soft); color:var(--blue); }
-.pink-weekly .wk-avatar { background:var(--pink-soft); color:var(--pink); }
+.blue-weekly  .wk-avatar { background:var(--blue-soft);  color:var(--blue); }
+.pink-weekly  .wk-avatar { background:var(--pink-soft);  color:var(--pink); }
+.lblue-weekly .wk-avatar { background:var(--lblue-soft); color:var(--lblue); }
+.lpink-weekly .wk-avatar { background:var(--lpink-soft); color:var(--lpink); }
 
 .weekly-total { font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:500; margin-bottom:6px; }
-.blue-weekly .weekly-total { color: var(--blue); }
-.pink-weekly .weekly-total { color: var(--pink); }
+.blue-weekly  .weekly-total { color: var(--blue); }
+.pink-weekly  .weekly-total { color: var(--pink); }
+.lblue-weekly .weekly-total { color: var(--lblue); }
+.lpink-weekly .weekly-total { color: var(--lpink); }
 .weekly-sub { font-size:11px; color:var(--text-3); }
 
 .week-days { display:flex; gap:6px; margin-top:16px; }
 .day-bar-wrap { flex:1; display:flex; flex-direction:column; align-items:center; gap:5px; }
 .day-bar-track { width:100%; height:50px; background:var(--surface2); border-radius:6px; overflow:hidden; display:flex; align-items:flex-end; }
 .day-bar-fill { width:100%; border-radius:6px; transition:height 0.8s cubic-bezier(0.4,0,0.2,1); min-height:0; }
-.blue-weekly .day-bar-fill { background:linear-gradient(180deg,var(--blue),rgba(79,142,247,0.4)); }
-.pink-weekly .day-bar-fill { background:linear-gradient(180deg,var(--pink),rgba(247,111,160,0.4)); }
+.blue-weekly  .day-bar-fill { background:linear-gradient(180deg,var(--blue), rgba(79,142,247,0.4)); }
+.pink-weekly  .day-bar-fill { background:linear-gradient(180deg,var(--pink), rgba(247,111,160,0.4)); }
+.lblue-weekly .day-bar-fill { background:linear-gradient(180deg,var(--lblue),rgba(125,211,252,0.4)); }
+.lpink-weekly .day-bar-fill { background:linear-gradient(180deg,var(--lpink),rgba(249,168,212,0.4)); }
 .day-label { font-size:9px; color:var(--text-3); letter-spacing:0.05em; text-transform:uppercase; }
 .day-label.today { color: var(--text-2); font-weight:600; }
 
@@ -434,11 +474,15 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 .pip-name { font-family:'Inter',sans-serif; font-size:11px; font-weight:600; display:flex; align-items:center; gap:7px; color:rgba(255,255,255,0.7); min-width:44px; }
 .pip-dot { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.15); flex-shrink:0; transition:all 0.3s; }
 .pip-dot.on { animation:pipblink 1.5s infinite; }
-.pip-dev-row .pip-dot.on { background:#4f8ef7; box-shadow:0 0 5px #4f8ef7; }
-.pip-oshu-row .pip-dot.on { background:#f76fa0; box-shadow:0 0 5px #f76fa0; }
+.pip-dev-row   .pip-dot.on { background:#4f8ef7; box-shadow:0 0 5px #4f8ef7; }
+.pip-oshu-row  .pip-dot.on { background:#f76fa0; box-shadow:0 0 5px #f76fa0; }
+.pip-hanan-row .pip-dot.on { background:#7dd3fc; box-shadow:0 0 5px #7dd3fc; }
+.pip-hwoman-row .pip-dot.on { background:#f9a8d4; box-shadow:0 0 5px #f9a8d4; }
 .pip-time { font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:500; color:rgba(255,255,255,0.85); letter-spacing:-0.01em; transition:color 0.3s; }
-.pip-dev-row .pip-time.on { color:#4f8ef7; }
-.pip-oshu-row .pip-time.on { color:#f76fa0; }
+.pip-dev-row   .pip-time.on { color:#4f8ef7; }
+.pip-oshu-row  .pip-time.on { color:#f76fa0; }
+.pip-hanan-row .pip-time.on { color:#7dd3fc; }
+.pip-hwoman-row .pip-time.on { color:#f9a8d4; }
 .pip-divider { height:1px; background:rgba(255,255,255,0.05); }
 .pip-footer { font-size:10px; color:rgba(255,255,255,0.25); font-family:'Inter',sans-serif; text-align:center; margin-top:1px; }
 @keyframes pipblink { 0%,100%{opacity:1} 50%{opacity:.3} }
@@ -453,6 +497,10 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 #pipRestoreBtn:hover { color:white; border-color:rgba(255,255,255,0.2); }
 
 /* ── MOBILE ─────────────────────────────────────────────── */
+@media(max-width:900px) {
+  .cards { grid-template-columns: 1fr 1fr; }
+  .weekly-grid { grid-template-columns: 1fr 1fr; }
+}
 @media(max-width:680px) {
   body { padding:24px 14px 80px; }
   .cards { grid-template-columns:1fr; gap:14px; }
@@ -622,16 +670,106 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
         </div>
       </div>
 
-    </div>
+      <!-- HANAN -->
+      <div class="card lblue-card" id="hananCard">
+        <div class="card-glow"></div>
+        <div class="card-header">
+          <div class="card-identity">
+            <div class="avatar">H</div>
+            <div><div class="card-name">Hanan</div><div class="card-sub">Him · Light Blue team</div></div>
+          </div>
+          <div class="status-dot" id="hananDot"></div>
+        </div>
+        <div class="timer-block">
+          <div class="timer-display" id="hananTimer">00:00:00</div>
+          <div class="total-label">Total today &nbsp;·&nbsp; <strong id="hananTotal">00:00:00</strong></div>
+        </div>
+        <div class="session-info">
+          <div class="stat-chip"><span class="stat-val" id="hananSessions">0</span><span class="stat-key">Sessions</span></div>
+          <div class="stat-chip"><span class="stat-val" id="hananLongest">—</span><span class="stat-key">Longest</span></div>
+          <div class="stat-chip"><span class="stat-val" id="hananStreak">🔥 0</span><span class="stat-key">Streak</span></div>
+        </div>
+        <div class="progress-section">
+          <div class="progress-header"><span>Daily goal — 4h</span><span id="hananPct">0%</span></div>
+          <div class="progress-track"><div class="progress-fill" id="hananBar" style="width:0%"></div></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-start" id="hananStart" onclick="startTimer('hanan')">▶ Start</button>
+          <button class="btn btn-pause" id="hananPause" onclick="pauseTimer('hanan')" disabled>⏸ Pause</button>
+          <button class="btn btn-stop"  id="hananStop"  onclick="stopTimer('hanan')"  disabled>■ Stop</button>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:8px">
+          <button class="btn" style="padding:6px 12px;font-size:11px;background:var(--surface2);color:var(--text-3);border:1px solid var(--border);border-radius:8px" onclick="openEditModal('hanan')">✏️ Edit time</button>
+        </div>
+        <div class="note-section">
+          <div class="note-label">🩵 Hanan's note</div>
+          <div class="note-display empty" id="hananNoteDisplay" onclick="toggleNoteEdit('hanan')">Click to leave a note…</div>
+          <div id="hananNoteEdit" style="display:none">
+            <div class="note-edit-row">
+              <textarea class="note-input" id="hananNoteInput" placeholder="Write something… 🩵" maxlength="200"></textarea>
+              <button class="note-send-btn" onclick="saveNote('hanan')">Send</button>
+              <button class="note-cancel-btn" onclick="cancelNoteEdit('hanan')">✕</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HANAN'S WOMAN -->
+      <div class="card lpink-card" id="hwomanCard">
+        <div class="card-glow"></div>
+        <div class="card-header">
+          <div class="card-identity">
+            <div class="avatar">W</div>
+            <div><div class="card-name">Hanan's Woman</div><div class="card-sub">Her · Light Pink team</div></div>
+          </div>
+          <div class="status-dot" id="hwomanDot"></div>
+        </div>
+        <div class="timer-block">
+          <div class="timer-display" id="hwomanTimer">00:00:00</div>
+          <div class="total-label">Total today &nbsp;·&nbsp; <strong id="hwomanTotal">00:00:00</strong></div>
+        </div>
+        <div class="session-info">
+          <div class="stat-chip"><span class="stat-val" id="hwomanSessions">0</span><span class="stat-key">Sessions</span></div>
+          <div class="stat-chip"><span class="stat-val" id="hwomanLongest">—</span><span class="stat-key">Longest</span></div>
+          <div class="stat-chip"><span class="stat-val" id="hwomanStreak">🔥 0</span><span class="stat-key">Streak</span></div>
+        </div>
+        <div class="progress-section">
+          <div class="progress-header"><span>Daily goal — 4h</span><span id="hwomanPct">0%</span></div>
+          <div class="progress-track"><div class="progress-fill" id="hwomanBar" style="width:0%"></div></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-start" id="hwomanStart" onclick="startTimer('hwoman')">▶ Start</button>
+          <button class="btn btn-pause" id="hwomanPause" onclick="pauseTimer('hwoman')" disabled>⏸ Pause</button>
+          <button class="btn btn-stop"  id="hwomanStop"  onclick="stopTimer('hwoman')"  disabled>■ Stop</button>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:8px">
+          <button class="btn" style="padding:6px 12px;font-size:11px;background:var(--surface2);color:var(--text-3);border:1px solid var(--border);border-radius:8px" onclick="openEditModal('hwoman')">✏️ Edit time</button>
+        </div>
+        <div class="note-section">
+          <div class="note-label">🌸 Hanan's Woman's note</div>
+          <div class="note-display empty" id="hwomanNoteDisplay" onclick="toggleNoteEdit('hwoman')">Click to leave a note…</div>
+          <div id="hwomanNoteEdit" style="display:none">
+            <div class="note-edit-row">
+              <textarea class="note-input" id="hwomanNoteInput" placeholder="Write something… 🌸" maxlength="200"></textarea>
+              <button class="note-send-btn" onclick="saveNote('hwoman')">Send</button>
+              <button class="note-cancel-btn" onclick="cancelNoteEdit('hwoman')">✕</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <div class="stats-bar">
-      <div class="stats-bar-item"><span class="stats-bar-val" id="sbDevTotal">00:00:00</span><span class="stats-bar-label">Dev Total</span></div>
+      <div class="stats-bar-item"><span class="stats-bar-val" id="sbDevTotal">00:00:00</span><span class="stats-bar-label">Dev</span></div>
       <div class="divider-v"></div>
-      <div class="stats-bar-item"><span class="stats-bar-val" id="sbDiff">—</span><span class="stats-bar-label">Difference</span></div>
+      <div class="stats-bar-item"><span class="stats-bar-val" id="sbOshuTotal">00:00:00</span><span class="stats-bar-label">Oshu</span></div>
       <div class="divider-v"></div>
-      <div class="stats-bar-item"><span class="stats-bar-val" id="sbOshuTotal">00:00:00</span><span class="stats-bar-label">Oshu Total</span></div>
+      <div class="stats-bar-item"><span class="stats-bar-val" id="sbHananTotal">00:00:00</span><span class="stats-bar-label">Hanan</span></div>
       <div class="divider-v"></div>
-      <div class="stats-bar-item"><span class="stats-bar-val" id="sbSessions">0</span><span class="stats-bar-label">Total Sessions</span></div>
+      <div class="stats-bar-item"><span class="stats-bar-val" id="sbHwomanTotal">00:00:00</span><span class="stats-bar-label">H's Woman</span></div>
+      <div class="divider-v"></div>
+      <div class="stats-bar-item"><span class="stats-bar-val" id="sbDiff">—</span><span class="stats-bar-label">Top Gap</span></div>
+      <div class="divider-v"></div>
+      <div class="stats-bar-item"><span class="stats-bar-val" id="sbSessions">0</span><span class="stats-bar-label">Sessions</span></div>
       <div class="divider-v"></div>
       <div class="stats-bar-item"><span class="stats-bar-val" id="sbLeader">—</span><span class="stats-bar-label">Leader</span></div>
     </div>
@@ -681,6 +819,34 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
         <div class="weekly-total" id="wkOshuTotal">00:00:00</div>
         <div class="weekly-sub" id="wkOshuSessions">0 sessions this week</div>
         <div class="week-days" id="wkOshuDays"></div>
+      </div>
+
+      <!-- HANAN WEEKLY -->
+      <div class="weekly-card lblue-weekly">
+        <div class="weekly-card-header">
+          <div class="weekly-name">
+            <div class="wk-avatar">H</div>
+            Hanan
+          </div>
+          <span style="font-size:11px;color:var(--text-3)">Light Blue team</span>
+        </div>
+        <div class="weekly-total" id="wkHananTotal">00:00:00</div>
+        <div class="weekly-sub" id="wkHananSessions">0 sessions this week</div>
+        <div class="week-days" id="wkHananDays"></div>
+      </div>
+
+      <!-- HANAN'S WOMAN WEEKLY -->
+      <div class="weekly-card lpink-weekly">
+        <div class="weekly-card-header">
+          <div class="weekly-name">
+            <div class="wk-avatar">W</div>
+            Hanan's Woman
+          </div>
+          <span style="font-size:11px;color:var(--text-3)">Light Pink team</span>
+        </div>
+        <div class="weekly-total" id="wkHwomanTotal">00:00:00</div>
+        <div class="weekly-sub" id="wkHwomanSessions">0 sessions this week</div>
+        <div class="week-days" id="wkHwomanDays"></div>
       </div>
 
     </div>
@@ -856,6 +1022,16 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
       <span class="pip-name"><span class="pip-dot" id="pipOshuDot"></span>Oshu</span>
       <span class="pip-time" id="pipOshuTime">00:00:00</span>
     </div>
+    <div class="pip-divider"></div>
+    <div class="pip-row pip-hanan-row">
+      <span class="pip-name"><span class="pip-dot" id="pipHananDot"></span>Hanan</span>
+      <span class="pip-time" id="pipHananTime">00:00:00</span>
+    </div>
+    <div class="pip-divider"></div>
+    <div class="pip-row pip-hwoman-row">
+      <span class="pip-name"><span class="pip-dot" id="pipHwomanDot"></span>H's Woman</span>
+      <span class="pip-time" id="pipHwomanTime">00:00:00</span>
+    </div>
     <div class="pip-footer" id="pipLeader">Start studying to lead</div>
   </div>
 </div>
@@ -941,8 +1117,10 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   };
 
   let cloud = {
-    dev:  { status:'idle', startedAt:null, elapsed:0, totalSec:0, sessions:0, longest:0 },
-    oshu: { status:'idle', startedAt:null, elapsed:0, totalSec:0, sessions:0, longest:0 }
+    dev:    { status:'idle', startedAt:null, elapsed:0, totalSec:0, sessions:0, longest:0 },
+    oshu:   { status:'idle', startedAt:null, elapsed:0, totalSec:0, sessions:0, longest:0 },
+    hanan:  { status:'idle', startedAt:null, elapsed:0, totalSec:0, sessions:0, longest:0 },
+    hwoman: { status:'idle', startedAt:null, elapsed:0, totalSec:0, sessions:0, longest:0 }
   };
 
   function liveElapsed(user) {
@@ -1024,89 +1202,86 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   let prevLeader = null;
 
   function render() {
-    const devLive  = cloud.dev.totalSec  + liveElapsed('dev');
-    const oshuLive = cloud.oshu.totalSec + liveElapsed('oshu');
+    const ALL = ['dev','oshu','hanan','hwoman'];
+    const lives = {};
+    ALL.forEach(u => { lives[u] = cloud[u].totalSec + liveElapsed(u); });
 
-    el('devTimer').textContent  = fmt(liveElapsed('dev'));
-    el('oshuTimer').textContent = fmt(liveElapsed('oshu'));
-    el('devTimer').classList.toggle('running',  cloud.dev.status  === 'running');
-    el('oshuTimer').classList.toggle('running', cloud.oshu.status === 'running');
-    el('devDot').classList.toggle('active',  cloud.dev.status  === 'running');
-    el('oshuDot').classList.toggle('active', cloud.oshu.status === 'running');
-
-    el('devTotal').textContent  = fmt(cloud.dev.totalSec);
-    el('oshuTotal').textContent = fmt(cloud.oshu.totalSec);
-    el('sbDevTotal').textContent  = fmt(devLive);
-    el('sbOshuTotal').textContent = fmt(oshuLive);
-    el('combinedTotal').textContent = fmt(devLive + oshuLive);
-
-    const totalSessions = cloud.dev.sessions + cloud.oshu.sessions;
-    el('sessionCount').textContent = totalSessions;
-    el('sbSessions').textContent   = totalSessions;
-    el('sbDiff').textContent = (devLive !== oshuLive) ? fmt(Math.abs(devLive - oshuLive)) : '—';
-
-    ['dev','oshu'].forEach(u => {
-      const grand = cloud[u].totalSec + liveElapsed(u);
-      const pct   = Math.min(100, Math.round((grand / GOAL) * 100));
+    ALL.forEach(u => {
+      el(`${u}Timer`).textContent = fmt(liveElapsed(u));
+      el(`${u}Timer`).classList.toggle('running', cloud[u].status === 'running');
+      el(`${u}Dot`).classList.toggle('active', cloud[u].status === 'running');
+      el(`${u}Total`).textContent = fmt(cloud[u].totalSec);
+      const pct = Math.min(100, Math.round((lives[u] / GOAL) * 100));
       el(`${u}Sessions`).textContent = cloud[u].sessions;
       el(`${u}Longest`).textContent  = cloud[u].longest > 0 ? fmtShort(cloud[u].longest) : '—';
       el(`${u}Streak`).textContent   = `🔥 ${cloud[u].sessions}`;
-      el(`${u}Pct`).textContent  = `${pct}%`;
-      el(`${u}Bar`).style.width  = `${pct}%`;
-      // Goal notification check
+      el(`${u}Pct`).textContent = `${pct}%`;
+      el(`${u}Bar`).style.width = `${pct}%`;
       if (pct >= 100) checkGoalNotif(u);
     });
 
-    ['dev','oshu'].forEach(u => setButtons(u, cloud[u].status));
+    const combinedLive = ALL.reduce((s,u) => s + lives[u], 0);
+    el('combinedTotal').textContent = fmt(combinedLive);
+    const totalSessions = ALL.reduce((s,u) => s + cloud[u].sessions, 0);
+    el('sessionCount').textContent = totalSessions;
 
+    el('sbDevTotal').textContent    = fmt(lives.dev);
+    el('sbOshuTotal').textContent   = fmt(lives.oshu);
+    el('sbHananTotal').textContent  = fmt(lives.hanan);
+    el('sbHwomanTotal').textContent = fmt(lives.hwoman);
+    el('sbSessions').textContent    = totalSessions;
+
+    // Top gap: diff between 1st and 2nd
+    const sorted = [...ALL].sort((a,b) => lives[b] - lives[a]);
+    const topGap = lives[sorted[0]] > 0 ? fmt(lives[sorted[0]] - lives[sorted[1]]) : '—';
+    el('sbDiff').textContent = topGap;
+
+    ALL.forEach(u => setButtons(u, cloud[u].status));
+
+    // Leader
     const badge = el('leaderBadge');
-    badge.classList.remove('blue','pink');
-    el('devCard').classList.remove('leading');
-    el('oshuCard').classList.remove('leading');
-    document.querySelector('.orb-blue').classList.remove('leading');
-    document.querySelector('.orb-pink').classList.remove('leading');
+    badge.classList.remove('blue','pink','lblue','lpink');
+    ALL.forEach(u => el(`${u}Card`).classList.remove('leading'));
 
+    const leaderUser = sorted[0];
     let currentLeader = null;
-    if (devLive === 0 && oshuLive === 0) {
+
+    if (combinedLive === 0) {
       badge.querySelector('.badge-icon').textContent = '💙';
       el('leaderText').textContent = 'Start studying to lead';
       el('sbLeader').textContent   = '—';
-      document.body.style.background = '';
-    } else if (devLive > oshuLive) {
-      el('devCard').classList.add('leading'); badge.classList.add('blue');
-      badge.querySelector('.badge-icon').textContent = '💙';
-      el('leaderText').textContent = 'Dev is leading today 💙';
-      el('sbLeader').textContent   = 'Dev';
-      currentLeader = 'dev';
-      document.querySelector('.orb-blue').classList.add('leading');
-      document.body.style.background = 'radial-gradient(ellipse at 15% 15%, rgba(79,142,247,0.14) 0%, #0a0a0d 55%)';
-    } else if (oshuLive > devLive) {
-      el('oshuCard').classList.add('leading'); badge.classList.add('pink');
-      badge.querySelector('.badge-icon').textContent = '🩷';
-      el('leaderText').textContent = 'Oshu is leading today 🩷';
-      el('sbLeader').textContent   = 'Oshu';
-      currentLeader = 'oshu';
-      document.querySelector('.orb-pink').classList.add('leading');
-      document.body.style.background = 'radial-gradient(ellipse at 85% 85%, rgba(247,111,160,0.13) 0%, #0a0a0d 55%)';
     } else {
-      el('leaderText').textContent = "It's a tie! 🤝";
-      el('sbLeader').textContent   = 'Tie';
-      document.body.style.background = '';
+      const nameMap = { dev:'Dev', oshu:'Oshu', hanan:'Hanan', hwoman:"Hanan's Woman" };
+      const iconMap = { dev:'💙', oshu:'🩷', hanan:'🩵', hwoman:'🌸' };
+      const classMap = { dev:'blue', oshu:'pink', hanan:'lblue', hwoman:'lpink' };
+      // Check for tie at top
+      const topVal = lives[sorted[0]];
+      const tied = sorted.filter(u => lives[u] === topVal);
+      if (tied.length > 1) {
+        el('leaderText').textContent = "It's a tie at the top! 🤝";
+        el('sbLeader').textContent   = 'Tie';
+      } else {
+        el(`${leaderUser}Card`).classList.add('leading');
+        badge.classList.add(classMap[leaderUser]);
+        badge.querySelector('.badge-icon').textContent = iconMap[leaderUser];
+        el('leaderText').textContent = `${nameMap[leaderUser]} is leading today ${iconMap[leaderUser]}`;
+        el('sbLeader').textContent   = nameMap[leaderUser];
+        currentLeader = leaderUser;
+      }
     }
 
-    // Lead change notification
     if (prevLeader !== null && currentLeader !== null && prevLeader !== currentLeader) {
       checkLeadChangeNotif(currentLeader);
     }
     if (currentLeader !== null) prevLeader = currentLeader;
 
-    // Sync PiP
-    el('pipDevTime').textContent  = fmt(liveElapsed('dev'));
-    el('pipOshuTime').textContent = fmt(liveElapsed('oshu'));
-    el('pipDevTime').classList.toggle('on', cloud.dev.status === 'running');
-    el('pipOshuTime').classList.toggle('on', cloud.oshu.status === 'running');
-    el('pipDevDot').classList.toggle('on', cloud.dev.status === 'running');
-    el('pipOshuDot').classList.toggle('on', cloud.oshu.status === 'running');
+    // PiP
+    ALL.forEach(u => {
+      const pipId = u === 'hwoman' ? 'Hwoman' : u.charAt(0).toUpperCase() + u.slice(1);
+      el(`pip${pipId}Time`).textContent = fmt(liveElapsed(u));
+      el(`pip${pipId}Time`).classList.toggle('on', cloud[u].status === 'running');
+      el(`pip${pipId}Dot`).classList.toggle('on',  cloud[u].status === 'running');
+    });
     el('pipLeader').textContent = el('leaderText').textContent;
   }
 
@@ -1118,7 +1293,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
       el('syncLabel').textContent = 'Synced live with Firebase ✓';
       if (!snap.exists()) { render(); return; }
       const data = snap.data();
-      ['dev','oshu'].forEach(u => {
+      ['dev','oshu','hanan','hwoman'].forEach(u => {
         if (!data[u]) return;
         cloud[u] = { ...cloud[u], ...data[u] };
       });
@@ -1157,70 +1332,87 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
     const weekDates = getWeekDatesIST();
     const todayKey  = todayIST();
 
-    // Fetch weekly doc from Firestore
-    let weeklyData = { dev: {}, oshu: {} };
+    let weeklyData = { dev: {}, oshu: {}, hanan: {}, hwoman: {} };
     try {
       const snap = await getDoc(doc(db, 'weekly', weekKey));
       if (snap.exists()) {
         const d = snap.data();
-        if (d.dev)  weeklyData.dev  = d.dev;
-        if (d.oshu) weeklyData.oshu = d.oshu;
+        ['dev','oshu','hanan','hwoman'].forEach(u => { if (d[u]) weeklyData[u] = d[u]; });
       }
     } catch(e) { console.error('Weekly load error:', e); }
 
-    // Also read today's live data from cloud state
-    weeklyData.dev[todayKey]  = { totalSec: cloud.dev.totalSec + liveElapsed('dev'),   sessions: cloud.dev.sessions };
-    weeklyData.oshu[todayKey] = { totalSec: cloud.oshu.totalSec + liveElapsed('oshu'), sessions: cloud.oshu.sessions };
+    ['dev','oshu','hanan','hwoman'].forEach(u => {
+      weeklyData[u][todayKey] = { totalSec: cloud[u].totalSec + liveElapsed(u), sessions: cloud[u].sessions };
+    });
 
-    // Build per-day arrays
-    const devDays  = weekDates.map(d => weeklyData.dev[d]?.totalSec  || 0);
-    const oshuDays = weekDates.map(d => weeklyData.oshu[d]?.totalSec || 0);
-    const devSessionsArr  = weekDates.map(d => weeklyData.dev[d]?.sessions  || 0);
-    const oshuSessionsArr = weekDates.map(d => weeklyData.oshu[d]?.sessions || 0);
+    const days = {};
+    const sessArr = {};
+    ['dev','oshu','hanan','hwoman'].forEach(u => {
+      days[u]    = weekDates.map(d => weeklyData[u][d]?.totalSec || 0);
+      sessArr[u] = weekDates.map(d => weeklyData[u][d]?.sessions || 0);
+    });
 
-    const devTotal  = devDays.reduce((a,b)=>a+b,0);
-    const oshuTotal = oshuDays.reduce((a,b)=>a+b,0);
-    const devSess   = devSessionsArr.reduce((a,b)=>a+b,0);
-    const oshuSess  = oshuSessionsArr.reduce((a,b)=>a+b,0);
-    const maxDay = Math.max(...devDays, ...oshuDays, 1);
+    const totals = {};
+    const sess   = {};
+    ['dev','oshu','hanan','hwoman'].forEach(u => {
+      totals[u] = days[u].reduce((a,b)=>a+b,0);
+      sess[u]   = sessArr[u].reduce((a,b)=>a+b,0);
+    });
 
-    el('wkDevTotal').textContent  = fmt(devTotal);
-    el('wkOshuTotal').textContent = fmt(oshuTotal);
-    el('wkDevSessions').textContent  = `${devSess} session${devSess!==1?'s':''} this week`;
-    el('wkOshuSessions').textContent = `${oshuSess} session${oshuSess!==1?'s':''} this week`;
-    el('wkCombined').textContent = fmt(devTotal + oshuTotal);
-    el('wkDiff').textContent = devTotal !== oshuTotal ? fmt(Math.abs(devTotal - oshuTotal)) : 'Tied!';
-    el('wkTotalSessions').textContent = devSess + oshuSess;
+    const maxDay = Math.max(...Object.values(days).flat(), 1);
+
+    el('wkDevTotal').textContent    = fmt(totals.dev);
+    el('wkOshuTotal').textContent   = fmt(totals.oshu);
+    el('wkHananTotal').textContent  = fmt(totals.hanan);
+    el('wkHwomanTotal').textContent = fmt(totals.hwoman);
+    ['dev','oshu','hanan','hwoman'].forEach(u => {
+      const n = { dev:'Dev', oshu:'Oshu', hanan:'Hanan', hwoman:"Hanan's Woman" }[u];
+      el(`wk${n.replace("'s Woman",'Hwoman').replace(/^\w/,c=>c.toUpperCase())}Sessions`);
+    });
+    el('wkDevSessions').textContent    = `${sess.dev} session${sess.dev!==1?'s':''} this week`;
+    el('wkOshuSessions').textContent   = `${sess.oshu} session${sess.oshu!==1?'s':''} this week`;
+    el('wkHananSessions').textContent  = `${sess.hanan} session${sess.hanan!==1?'s':''} this week`;
+    el('wkHwomanSessions').textContent = `${sess.hwoman} session${sess.hwoman!==1?'s':''} this week`;
+
+    const combinedTotal = Object.values(totals).reduce((a,b)=>a+b,0);
+    el('wkCombined').textContent = fmt(combinedTotal);
+    el('wkTotalSessions').textContent = Object.values(sess).reduce((a,b)=>a+b,0);
 
     // Best combined day
     let bestIdx = 0, bestVal = 0;
     weekDates.forEach((_, i) => {
-      const combined = devDays[i] + oshuDays[i];
+      const combined = ['dev','oshu','hanan','hwoman'].reduce((s,u) => s + days[u][i], 0);
       if (combined > bestVal) { bestVal = combined; bestIdx = i; }
     });
     el('wkBestDay').textContent = bestVal > 0 ? DAY_LABELS[bestIdx] : '—';
 
+    // Gap between top 2
+    const sortedTotals = Object.entries(totals).sort((a,b)=>b[1]-a[1]);
+    el('wkDiff').textContent = sortedTotals[0][1] > 0 ? fmt(sortedTotals[0][1] - sortedTotals[1][1]) : '—';
+
     // Winner banner
     const winBanner = el('wkWinnerBanner');
     const winText   = el('wkWinnerText');
-    if (devTotal > 0 || oshuTotal > 0) {
+    if (combinedTotal > 0) {
       winBanner.classList.add('show');
-      if (devTotal > oshuTotal) winText.textContent = '💙 Dev is leading this week!';
-      else if (oshuTotal > devTotal) winText.textContent = '🩷 Oshu is leading this week!';
-      else winText.textContent = "🤝 It's a tie this week!";
+      const icons = { dev:'💙', oshu:'🩷', hanan:'🩵', hwoman:'🌸' };
+      const names = { dev:'Dev', oshu:'Oshu', hanan:'Hanan', hwoman:"Hanan's Woman" };
+      const leader = sortedTotals[0][0];
+      if (sortedTotals[0][1] === sortedTotals[1][1]) winText.textContent = "🤝 It's a tie at the top this week!";
+      else winText.textContent = `${icons[leader]} ${names[leader]} is leading this week!`;
     }
 
     // Render day bars
-    function buildDayBars(containerId, days, user) {
+    function buildDayBars(containerId, userDays) {
       const c = el(containerId);
       c.innerHTML = '';
       weekDates.forEach((date, i) => {
         const isToday = date === todayKey;
-        const pct = Math.round((days[i] / maxDay) * 100);
+        const pct = Math.round((userDays[i] / maxDay) * 100);
         c.innerHTML += `
           <div class="day-bar-wrap">
             <div class="day-bar-track">
-              <div class="day-bar-fill" style="height:${pct}%" title="${fmt(days[i])}"></div>
+              <div class="day-bar-fill" style="height:${pct}%" title="${fmt(userDays[i])}"></div>
             </div>
             <div class="day-label${isToday?' today':''}">
               ${DAY_LABELS[i]}
@@ -1228,106 +1420,88 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
           </div>`;
       });
     }
-    buildDayBars('wkDevDays',  devDays,  'dev');
-    buildDayBars('wkOshuDays', oshuDays, 'oshu');
+    buildDayBars('wkDevDays',    days.dev);
+    buildDayBars('wkOshuDays',   days.oshu);
+    buildDayBars('wkHananDays',  days.hanan);
+    buildDayBars('wkHwomanDays', days.hwoman);
 
-    // Charts
-    renderCharts(devDays, oshuDays, weekDates, todayKey);
+    renderCharts(days, weekDates, todayKey);
   }
 
   // ── CHARTS ───────────────────────────────────────────────────
   let chartWeekly=null, chartToday=null, chartProgress=null;
 
-  function renderCharts(devDays, oshuDays, weekDates, todayKey) {
+  function renderCharts(days, weekDates, todayKey) {
     const labels = DAY_LABELS.slice(0, weekDates.length);
-    const todayIdx = weekDates.indexOf(todayKey);
 
-    // Weekly grouped bar chart
     if (chartWeekly) chartWeekly.destroy();
     chartWeekly = new Chart(el('chartWeekly'), {
       type: 'bar',
       data: {
         labels,
         datasets: [
-          {
-            label: 'Dev', data: devDays.map(s=>+(s/3600).toFixed(2)),
-            backgroundColor: 'rgba(79,142,247,0.6)', borderRadius: 5,
-            borderColor: 'rgba(79,142,247,0.9)', borderWidth: 1
-          },
-          {
-            label: 'Oshu', data: oshuDays.map(s=>+(s/3600).toFixed(2)),
-            backgroundColor: 'rgba(247,111,160,0.55)', borderRadius: 5,
-            borderColor: 'rgba(247,111,160,0.9)', borderWidth: 1
-          }
+          { label:'Dev',          data:days.dev.map(s=>+(s/3600).toFixed(2)),    backgroundColor:'rgba(79,142,247,0.6)',  borderRadius:5, borderColor:'rgba(79,142,247,0.9)',  borderWidth:1 },
+          { label:'Oshu',         data:days.oshu.map(s=>+(s/3600).toFixed(2)),   backgroundColor:'rgba(247,111,160,0.55)',borderRadius:5, borderColor:'rgba(247,111,160,0.9)',borderWidth:1 },
+          { label:'Hanan',        data:days.hanan.map(s=>+(s/3600).toFixed(2)),  backgroundColor:'rgba(125,211,252,0.55)',borderRadius:5, borderColor:'rgba(125,211,252,0.9)',borderWidth:1 },
+          { label:"Hanan's Woman",data:days.hwoman.map(s=>+(s/3600).toFixed(2)), backgroundColor:'rgba(249,168,212,0.55)',borderRadius:5, borderColor:'rgba(249,168,212,0.9)',borderWidth:1 },
         ]
       },
       options: {
-        responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { labels: { color: '#8b8b9a', font:{size:11} } } },
-        scales: {
-          x: { ticks:{color:'#55555f'}, grid:{color:'rgba(255,255,255,0.04)'} },
-          y: { ticks:{color:'#55555f', callback:v=>`${v}h`}, grid:{color:'rgba(255,255,255,0.04)'} }
+        responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{labels:{color:'#8b8b9a',font:{size:11}}} },
+        scales:{
+          x:{ticks:{color:'#55555f'},grid:{color:'rgba(255,255,255,0.04)'}},
+          y:{ticks:{color:'#55555f',callback:v=>`${v}h`},grid:{color:'rgba(255,255,255,0.04)'}}
         }
       }
     });
 
-    // Today donut
-    const devToday  = cloud.dev.totalSec  + liveElapsed('dev');
-    const oshuToday = cloud.oshu.totalSec + liveElapsed('oshu');
+    const devToday    = cloud.dev.totalSec    + liveElapsed('dev');
+    const oshuToday   = cloud.oshu.totalSec   + liveElapsed('oshu');
+    const hananToday  = cloud.hanan.totalSec  + liveElapsed('hanan');
+    const hwomanToday = cloud.hwoman.totalSec + liveElapsed('hwoman');
+    const combined = devToday + oshuToday + hananToday + hwomanToday;
     if (chartToday) chartToday.destroy();
     chartToday = new Chart(el('chartToday'), {
-      type: 'doughnut',
-      data: {
-        labels: ['Dev', 'Oshu', 'Remaining goal'],
-        datasets: [{
-          data: [
+      type:'doughnut',
+      data:{
+        labels:['Dev','Oshu','Hanan',"Hanan's Woman",'Remaining'],
+        datasets:[{
+          data:[
             +(devToday/3600).toFixed(2),
             +(oshuToday/3600).toFixed(2),
-            Math.max(0, +((8 - devToday/3600 - oshuToday/3600)).toFixed(2))
+            +(hananToday/3600).toFixed(2),
+            +(hwomanToday/3600).toFixed(2),
+            Math.max(0, +((16-combined/3600)).toFixed(2))
           ],
-          backgroundColor: ['rgba(79,142,247,0.8)','rgba(247,111,160,0.75)','rgba(255,255,255,0.05)'],
-          borderColor:      ['rgba(79,142,247,1)','rgba(247,111,160,1)','rgba(255,255,255,0.08)'],
-          borderWidth: 1
+          backgroundColor:['rgba(79,142,247,0.8)','rgba(247,111,160,0.75)','rgba(125,211,252,0.75)','rgba(249,168,212,0.75)','rgba(255,255,255,0.05)'],
+          borderColor:['rgba(79,142,247,1)','rgba(247,111,160,1)','rgba(125,211,252,1)','rgba(249,168,212,1)','rgba(255,255,255,0.08)'],
+          borderWidth:1
         }]
       },
-      options: {
-        responsive: true, maintainAspectRatio: false, cutout: '68%',
-        plugins: { legend: { labels: { color: '#8b8b9a', font:{size:11} } } }
-      }
+      options:{ responsive:true, maintainAspectRatio:false, cutout:'68%', plugins:{legend:{labels:{color:'#8b8b9a',font:{size:11}}}} }
     });
 
-    // Progress line (% of 4h goal each day)
-    const devPcts  = devDays.map(s=>Math.min(100, Math.round(s/GOAL*100)));
-    const oshuPcts = oshuDays.map(s=>Math.min(100, Math.round(s/GOAL*100)));
+    const pcts = u => days[u].map(s=>Math.min(100,Math.round(s/GOAL*100)));
     if (chartProgress) chartProgress.destroy();
     chartProgress = new Chart(el('chartProgress'), {
-      type: 'line',
-      data: {
+      type:'line',
+      data:{
         labels,
-        datasets: [
-          {
-            label: 'Dev', data: devPcts,
-            borderColor: 'rgba(79,142,247,0.9)', backgroundColor: 'rgba(79,142,247,0.08)',
-            tension: 0.4, fill: true, pointRadius: 4, pointBackgroundColor: '#4f8ef7'
-          },
-          {
-            label: 'Oshu', data: oshuPcts,
-            borderColor: 'rgba(247,111,160,0.9)', backgroundColor: 'rgba(247,111,160,0.08)',
-            tension: 0.4, fill: true, pointRadius: 4, pointBackgroundColor: '#f76fa0'
-          },
-          {
-            label: 'Goal (100%)', data: Array(7).fill(100),
-            borderColor: 'rgba(255,255,255,0.12)', borderDash:[6,4],
-            pointRadius:0, fill:false
-          }
+        datasets:[
+          { label:'Dev',          data:pcts('dev'),    borderColor:'rgba(79,142,247,0.9)',  backgroundColor:'rgba(79,142,247,0.08)',  tension:0.4,fill:true,pointRadius:4,pointBackgroundColor:'#4f8ef7' },
+          { label:'Oshu',         data:pcts('oshu'),   borderColor:'rgba(247,111,160,0.9)', backgroundColor:'rgba(247,111,160,0.08)', tension:0.4,fill:true,pointRadius:4,pointBackgroundColor:'#f76fa0' },
+          { label:'Hanan',        data:pcts('hanan'),  borderColor:'rgba(125,211,252,0.9)', backgroundColor:'rgba(125,211,252,0.08)', tension:0.4,fill:true,pointRadius:4,pointBackgroundColor:'#7dd3fc' },
+          { label:"Hanan's Woman",data:pcts('hwoman'), borderColor:'rgba(249,168,212,0.9)', backgroundColor:'rgba(249,168,212,0.08)', tension:0.4,fill:true,pointRadius:4,pointBackgroundColor:'#f9a8d4' },
+          { label:'Goal (100%)',  data:Array(7).fill(100), borderColor:'rgba(255,255,255,0.12)',borderDash:[6,4],pointRadius:0,fill:false }
         ]
       },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { labels: { color:'#8b8b9a', font:{size:11} } } },
-        scales: {
-          x: { ticks:{color:'#55555f'}, grid:{color:'rgba(255,255,255,0.04)'} },
-          y: { min:0, max:110, ticks:{color:'#55555f', callback:v=>`${v}%`}, grid:{color:'rgba(255,255,255,0.04)'} }
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{labels:{color:'#8b8b9a',font:{size:11}}}},
+        scales:{
+          x:{ticks:{color:'#55555f'},grid:{color:'rgba(255,255,255,0.04)'}},
+          y:{min:0,max:110,ticks:{color:'#55555f',callback:v=>`${v}%`},grid:{color:'rgba(255,255,255,0.04)'}}
         }
       }
     });
@@ -1339,7 +1513,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   // ── NOTIFICATIONS ────────────────────────────────────────────
   let notifSettings = JSON.parse(localStorage.getItem('notifSettings') || '{}');
   let lastInactivityNotif = 0;
-  let goalNotified = { dev: false, oshu: false };
+  let goalNotified = { dev: false, oshu: false, hanan: false, hwoman: false };
   let leadNotified = null;
 
   window.saveNotifSettings = function() {
@@ -1375,35 +1549,35 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   function checkNotifMilestone(user, totalSec) {
     if (!notifSettings.milestone) return;
     const hours = Math.floor(totalSec / 3600);
+    const names = { dev:'Dev', oshu:'Oshu', hanan:'Hanan', hwoman:"Hanan's Woman" };
     if (hours >= 1 && hours <= 4) {
-      sendNotif(`${user === 'dev' ? 'Dev' : 'Oshu'} hit ${hours}h! 🎉`,
-        `Keep going — the grind is paying off 💪`);
+      sendNotif(`${names[user]||user} hit ${hours}h! 🎉`, `Keep going — the grind is paying off 💪`);
     }
   }
 
   function checkGoalNotif(user) {
     if (!notifSettings.goal || goalNotified[user]) return;
     goalNotified[user] = true;
-    sendNotif(`🎯 ${user === 'dev' ? 'Dev' : 'Oshu'} hit the 4h daily goal!`,
-      `Amazing work! Goal achieved for today 🏆`);
+    const names = { dev:'Dev', oshu:'Oshu', hanan:'Hanan', hwoman:"Hanan's Woman" };
+    sendNotif(`🎯 ${names[user]||user} hit the 4h daily goal!`, `Amazing work! Goal achieved for today 🏆`);
   }
 
   function checkLeadChangeNotif(leader) {
     if (!notifSettings.lead || leadNotified === leader) return;
     leadNotified = leader;
-    sendNotif(`Lead change! ${leader === 'dev' ? 'Dev 💙' : 'Oshu 🩷'} is now ahead!`,
-      `The race is on — time to catch up!`);
+    const names = { dev:'Dev 💙', oshu:'Oshu 🩷', hanan:'Hanan 🩵', hwoman:"Hanan's Woman 🌸" };
+    sendNotif(`Lead change! ${names[leader]||leader} is now ahead!`, `The race is on — time to catch up!`);
   }
 
   // Inactivity reminder check every minute
   setInterval(() => {
     if (!notifSettings.reminder) return;
-    const bothIdle = cloud.dev.status === 'idle' && cloud.oshu.status === 'idle';
+    const bothIdle = ['dev','oshu','hanan','hwoman'].every(u => cloud[u].status === 'idle');
     if (!bothIdle) { lastInactivityNotif = Date.now(); return; }
     const mins = (Date.now() - lastInactivityNotif) / 60000;
     if (mins >= (notifSettings.interval || 60)) {
       lastInactivityNotif = Date.now();
-      sendNotif('📚 Study time!', "You haven't studied in a while. Open the books!");
+      sendNotif('📚 Study time!', "Nobody has studied in a while. Open the books!");
     }
   }, 60000);
 
@@ -1450,7 +1624,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   }, 30000);
 
   // ── NOTES ────────────────────────────────────────────────────
-  let notes = { dev: '', oshu: '' };
+  let notes = { dev: '', oshu: '', hanan: '', hwoman: '' };
 
   function renderNote(user) {
     const display = el(`${user}NoteDisplay`);
@@ -1489,14 +1663,12 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
     renderNote(user);
   };
 
-  // Listen for note changes from Firebase
   onSnapshot(doc(db, 'notes', todayIST()), snap => {
     if (!snap.exists()) return;
     const data = snap.data();
-    ['dev','oshu'].forEach(u => {
+    ['dev','oshu','hanan','hwoman'].forEach(u => {
       if (data[u] !== undefined && data[u] !== notes[u]) {
         notes[u] = data[u];
-        // Only update display if not currently editing
         if (el(`${u}NoteEdit`).style.display === 'none') renderNote(u);
       }
     });
@@ -1508,12 +1680,13 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   window.openEditModal = function(user) {
     editTarget = user;
     const totalSec = cloud[user].totalSec;
-    el('editModalTitle').textContent = `Edit ${user === 'dev' ? 'Dev' : 'Oshu'}'s Total Time`;
+    const names = { dev:'Dev', oshu:'Oshu', hanan:'Hanan', hwoman:"Hanan's Woman" };
+    el('editModalTitle').textContent = `Edit ${names[user]||user}'s Total Time`;
     el('editHours').value   = Math.floor(totalSec / 3600);
     el('editMinutes').value = Math.floor((totalSec % 3600) / 60);
     el('editSeconds').value = totalSec % 60;
     const btn = el('editConfirmBtn');
-    btn.className = `btn-confirm${user === 'oshu' ? ' pink' : ''}`;
+    btn.className = `btn-confirm${user==='oshu'?' pink':user==='hanan'?' lblue':user==='hwoman'?' lpink':''}`;
     el('editModal').classList.add('show');
     el('editHours').focus();
   };
