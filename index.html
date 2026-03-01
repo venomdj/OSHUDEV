@@ -208,6 +208,86 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 
 .reset-notice { text-align:center; margin-top:14px; font-size:11px; color:var(--text-3); }
 
+/* ── NOTE BOX ─────────────────────────────────────────────── */
+.note-section { margin-top:14px; }
+.note-label { font-size:10px; color:var(--text-3); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+.note-display {
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:10px; padding:10px 14px; font-size:13px; color:var(--text-2);
+  min-height:38px; cursor:pointer; transition:border-color 0.2s;
+  word-break:break-word; white-space:pre-wrap; line-height:1.5;
+}
+.note-display:hover { border-color:var(--border-h); }
+.note-display.empty { color:var(--text-3); font-style:italic; }
+.note-edit-row { display:flex; gap:7px; margin-top:6px; }
+.note-input {
+  flex:1; background:var(--surface2); border:1px solid var(--border);
+  border-radius:10px; padding:9px 13px; font-family:'Inter',sans-serif;
+  font-size:13px; color:var(--text-1); resize:none; outline:none;
+  transition:border-color 0.2s; line-height:1.5; height:62px;
+}
+.note-input:focus { border-color:rgba(79,142,247,0.4); }
+.pink-card .note-input:focus { border-color:rgba(247,111,160,0.4); }
+.note-send-btn {
+  border:none; border-radius:10px; padding:9px 14px; cursor:pointer;
+  font-size:13px; font-weight:500; transition:all 0.2s; align-self:flex-end;
+}
+.blue-card .note-send-btn { background:var(--blue-btn); color:var(--blue); border:1px solid rgba(79,142,247,0.2); }
+.blue-card .note-send-btn:hover { background:rgba(79,142,247,0.22); }
+.pink-card .note-send-btn { background:var(--pink-btn); color:var(--pink); border:1px solid rgba(247,111,160,0.2); }
+.pink-card .note-send-btn:hover { background:rgba(247,111,160,0.22); }
+.note-cancel-btn {
+  border:none; border-radius:10px; padding:9px 12px; cursor:pointer;
+  font-size:13px; background:var(--surface2); color:var(--text-3);
+  border:1px solid var(--border); transition:all 0.2s; align-self:flex-end;
+}
+.note-cancel-btn:hover { color:var(--text-2); }
+
+/* ── TIMER EDIT MODAL ────────────────────────────────────── */
+.modal-overlay {
+  display:none; position:fixed; inset:0; z-index:10000;
+  background:rgba(0,0,0,0.7); backdrop-filter:blur(8px);
+  align-items:center; justify-content:center; padding:20px;
+}
+.modal-overlay.show { display:flex; }
+.modal-box {
+  background:var(--surface); border:1px solid var(--border-h);
+  border-radius:20px; padding:28px; width:100%; max-width:340px;
+  animation:fadeUp 0.25s ease;
+}
+.modal-box h3 { font-size:15px; font-weight:600; margin-bottom:6px; }
+.modal-box p { font-size:12px; color:var(--text-3); margin-bottom:20px; }
+.modal-time-inputs { display:flex; align-items:center; gap:8px; justify-content:center; margin-bottom:20px; }
+.modal-time-input {
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:10px; padding:10px 0; width:72px; text-align:center;
+  font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:500;
+  color:var(--text-1); outline:none; transition:border-color 0.2s;
+  -moz-appearance:textfield;
+}
+.modal-time-input::-webkit-outer-spin-button,
+.modal-time-input::-webkit-inner-spin-button { -webkit-appearance:none; }
+.modal-time-input:focus { border-color:rgba(79,142,247,0.5); }
+.modal-colon { font-size:22px; color:var(--text-3); font-weight:500; }
+.modal-labels { display:flex; gap:8px; justify-content:center; margin-bottom:22px; }
+.modal-labels span { width:72px; text-align:center; font-size:10px; color:var(--text-3); letter-spacing:0.08em; text-transform:uppercase; }
+.modal-btn-row { display:flex; gap:8px; }
+.modal-btn-row .btn-confirm {
+  flex:1; border:none; border-radius:10px; padding:11px; cursor:pointer;
+  font-family:'Inter',sans-serif; font-size:13px; font-weight:500;
+  background:var(--blue-btn); color:var(--blue); border:1px solid rgba(79,142,247,0.2);
+  transition:all 0.2s;
+}
+.modal-btn-row .btn-confirm:hover { background:rgba(79,142,247,0.22); }
+.modal-btn-row .btn-confirm.pink { background:var(--pink-btn); color:var(--pink); border-color:rgba(247,111,160,0.2); }
+.modal-btn-row .btn-confirm.pink:hover { background:rgba(247,111,160,0.22); }
+.modal-btn-row .btn-cancel-m {
+  border:none; border-radius:10px; padding:11px 16px; cursor:pointer;
+  font-family:'Inter',sans-serif; font-size:13px; background:var(--surface2);
+  color:var(--text-3); border:1px solid var(--border); transition:all 0.2s;
+}
+.modal-btn-row .btn-cancel-m:hover { color:var(--text-2); }
+
 /* ── WEEKLY LEADERBOARD ──────────────────────────────────── */
 .section-title {
   font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
@@ -382,6 +462,9 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   .btn-row { gap:5px; }
   .btn { font-size:12px; padding:9px 0; }
   .week-days { gap:4px; }
+  .modal-time-input { width:60px; font-size:20px; }
+  .note-edit-row { flex-direction:column; }
+  .note-send-btn, .note-cancel-btn { align-self:flex-end; }
 }
 </style>
 </head>
@@ -467,6 +550,20 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
           <button class="btn btn-pause" id="devPause" onclick="pauseTimer('dev')" disabled>⏸ Pause</button>
           <button class="btn btn-stop"  id="devStop"  onclick="stopTimer('dev')"  disabled>■ Stop</button>
         </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:8px">
+          <button class="btn" style="padding:6px 12px;font-size:11px;background:var(--surface2);color:var(--text-3);border:1px solid var(--border);border-radius:8px" onclick="openEditModal('dev')">✏️ Edit time</button>
+        </div>
+        <div class="note-section">
+          <div class="note-label">💙 Dev's note for Oshu</div>
+          <div class="note-display empty" id="devNoteDisplay" onclick="toggleNoteEdit('dev')">Click to leave a note…</div>
+          <div id="devNoteEdit" style="display:none">
+            <div class="note-edit-row">
+              <textarea class="note-input" id="devNoteInput" placeholder="Write something for Oshu… 💙" maxlength="200"></textarea>
+              <button class="note-send-btn" onclick="saveNote('dev')">Send</button>
+              <button class="note-cancel-btn" onclick="cancelNoteEdit('dev')">✕</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- OSHU -->
@@ -496,6 +593,20 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
           <button class="btn btn-start" id="oshuStart" onclick="startTimer('oshu')">▶ Start</button>
           <button class="btn btn-pause" id="oshuPause" onclick="pauseTimer('oshu')" disabled>⏸ Pause</button>
           <button class="btn btn-stop"  id="oshuStop"  onclick="stopTimer('oshu')"  disabled>■ Stop</button>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:8px">
+          <button class="btn" style="padding:6px 12px;font-size:11px;background:var(--surface2);color:var(--text-3);border:1px solid var(--border);border-radius:8px" onclick="openEditModal('oshu')">✏️ Edit time</button>
+        </div>
+        <div class="note-section">
+          <div class="note-label">🩷 Oshu's note for Dev</div>
+          <div class="note-display empty" id="oshuNoteDisplay" onclick="toggleNoteEdit('oshu')">Click to leave a note…</div>
+          <div id="oshuNoteEdit" style="display:none">
+            <div class="note-edit-row">
+              <textarea class="note-input" id="oshuNoteInput" placeholder="Write something for Dev… 🩷" maxlength="200"></textarea>
+              <button class="note-send-btn" onclick="saveNote('oshu')">Send</button>
+              <button class="note-cancel-btn" onclick="cancelNoteEdit('oshu')">✕</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -738,6 +849,28 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 </div>
 
 <button id="pipRestoreBtn">⏱ Show Timer</button>
+
+<!-- TIMER EDIT MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-box">
+    <h3 id="editModalTitle">Edit Total Study Time</h3>
+    <p>Adjust today's total time — use this if you forgot to start or stop the timer.</p>
+    <div class="modal-time-inputs">
+      <input type="number" class="modal-time-input" id="editHours" min="0" max="23" value="0">
+      <span class="modal-colon">:</span>
+      <input type="number" class="modal-time-input" id="editMinutes" min="0" max="59" value="0">
+      <span class="modal-colon">:</span>
+      <input type="number" class="modal-time-input" id="editSeconds" min="0" max="59" value="0">
+    </div>
+    <div class="modal-labels">
+      <span>Hours</span><span>Minutes</span><span>Seconds</span>
+    </div>
+    <div class="modal-btn-row">
+      <button class="btn-cancel-m" onclick="closeEditModal()">Cancel</button>
+      <button class="btn-confirm" id="editConfirmBtn" onclick="confirmEditTimer()">Save</button>
+    </div>
+  </div>
+</div>
 
 <!-- FIREBASE -->
 <script type="module">
@@ -1295,6 +1428,102 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
       window._loadWeeklyData?.();
     }
   }, 30000);
+
+  // ── NOTES ────────────────────────────────────────────────────
+  let notes = { dev: '', oshu: '' };
+
+  function renderNote(user) {
+    const display = el(`${user}NoteDisplay`);
+    const txt = notes[user];
+    if (txt) {
+      display.textContent = txt;
+      display.classList.remove('empty');
+    } else {
+      display.textContent = 'Click to leave a note…';
+      display.classList.add('empty');
+    }
+  }
+
+  window.toggleNoteEdit = function(user) {
+    const editDiv = el(`${user}NoteEdit`);
+    const isOpen = editDiv.style.display !== 'none';
+    if (isOpen) { cancelNoteEdit(user); return; }
+    el(`${user}NoteInput`).value = notes[user] || '';
+    editDiv.style.display = 'block';
+    el(`${user}NoteDisplay`).style.display = 'none';
+    el(`${user}NoteInput`).focus();
+  };
+
+  window.cancelNoteEdit = function(user) {
+    el(`${user}NoteEdit`).style.display = 'none';
+    el(`${user}NoteDisplay`).style.display = 'block';
+  };
+
+  window.saveNote = async function(user) {
+    const txt = el(`${user}NoteInput`).value.trim();
+    notes[user] = txt;
+    try {
+      await setDoc(doc(db, 'notes', todayIST()), { [user]: txt }, { merge: true });
+    } catch(e) { console.error('Note save error:', e); }
+    cancelNoteEdit(user);
+    renderNote(user);
+  };
+
+  // Listen for note changes from Firebase
+  onSnapshot(doc(db, 'notes', todayIST()), snap => {
+    if (!snap.exists()) return;
+    const data = snap.data();
+    ['dev','oshu'].forEach(u => {
+      if (data[u] !== undefined && data[u] !== notes[u]) {
+        notes[u] = data[u];
+        // Only update display if not currently editing
+        if (el(`${u}NoteEdit`).style.display === 'none') renderNote(u);
+      }
+    });
+  });
+
+  // ── TIMER EDIT ───────────────────────────────────────────────
+  let editTarget = null;
+
+  window.openEditModal = function(user) {
+    editTarget = user;
+    const totalSec = cloud[user].totalSec;
+    el('editModalTitle').textContent = `Edit ${user === 'dev' ? 'Dev' : 'Oshu'}'s Total Time`;
+    el('editHours').value   = Math.floor(totalSec / 3600);
+    el('editMinutes').value = Math.floor((totalSec % 3600) / 60);
+    el('editSeconds').value = totalSec % 60;
+    const btn = el('editConfirmBtn');
+    btn.className = `btn-confirm${user === 'oshu' ? ' pink' : ''}`;
+    el('editModal').classList.add('show');
+    el('editHours').focus();
+  };
+
+  window.closeEditModal = function() {
+    el('editModal').classList.remove('show');
+    editTarget = null;
+  };
+
+  window.confirmEditTimer = async function() {
+    if (!editTarget) return;
+    const h = parseInt(el('editHours').value)   || 0;
+    const m = parseInt(el('editMinutes').value) || 0;
+    const s = parseInt(el('editSeconds').value) || 0;
+    const newTotal = h*3600 + m*60 + s;
+    // If timer is currently running, also reset the elapsed so it continues from 0
+    if (cloud[editTarget].status === 'running') {
+      cloud[editTarget].startedAt = Date.now();
+      cloud[editTarget].elapsed   = 0;
+    }
+    cloud[editTarget].totalSec = newTotal;
+    await save(editTarget);
+    render();
+    closeEditModal();
+  };
+
+  // Close modal on overlay click
+  el('editModal').addEventListener('click', e => {
+    if (e.target === el('editModal')) closeEditModal();
+  });
 
   // Initial weekly load
   setTimeout(loadWeeklyData, 2000);
