@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Study Dashboard — Dev, Oshu, Hanan & Co.</title>
+<title>Study Dashboard — Dev & Oshu</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -25,12 +25,7 @@
   --pink:        #f76fa0;
   --pink-soft:   rgba(247,111,160,0.10);
   --pink-btn:    rgba(247,111,160,0.13);
-  --lblue:       #7dd3fc;
-  --lblue-soft:  rgba(125,211,252,0.12);
-  --lblue-btn:   rgba(125,211,252,0.14);
-  --lpink:       #f9a8d4;
-  --lpink-soft:  rgba(249,168,212,0.12);
-  --lpink-btn:   rgba(249,168,212,0.14);
+
   --green:       #4ade80;
   --amber:       #f59e0b;
   --radius-card: 20px;
@@ -137,7 +132,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 .notif-banner button:hover { opacity: 1; }
 
 /* CARDS */
-.cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 18px; animation: fadeUp 0.5s 0.2s ease both; }
+.cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 18px; animation: fadeUp 0.5s 0.2s ease both; }
 
 .card {
   background: var(--surface); border: 1px solid var(--border);
@@ -148,18 +143,15 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 .card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; opacity:0.5; }
 .card.blue-card::before  { background: linear-gradient(90deg,transparent,var(--blue),transparent); }
 .card.pink-card::before  { background: linear-gradient(90deg,transparent,var(--pink),transparent); }
-.card.lblue-card::before { background: linear-gradient(90deg,transparent,var(--lblue),transparent); }
-.card.lpink-card::before { background: linear-gradient(90deg,transparent,var(--lpink),transparent); }
+
 .card.blue-card.leading  { box-shadow: 0 0 0 1px rgba(79,142,247,0.15),  0 8px 48px rgba(79,142,247,0.1);  border-color: var(--border-h); }
 .card.pink-card.leading  { box-shadow: 0 0 0 1px rgba(247,111,160,0.15), 0 8px 48px rgba(247,111,160,0.1); border-color: var(--border-h); }
-.card.lblue-card.leading { box-shadow: 0 0 0 1px rgba(125,211,252,0.15), 0 8px 48px rgba(125,211,252,0.1); border-color: var(--border-h); }
-.card.lpink-card.leading { box-shadow: 0 0 0 1px rgba(249,168,212,0.15), 0 8px 48px rgba(249,168,212,0.1); border-color: var(--border-h); }
+
 
 .card-glow { position:absolute; width:200px; height:200px; border-radius:50%; filter:blur(60px); pointer-events:none; bottom:-60px; right:-40px; opacity:0; transition:opacity 0.6s ease; }
 .blue-card  .card-glow { background: rgba(79,142,247,0.15); }
 .pink-card  .card-glow { background: rgba(247,111,160,0.13); }
-.lblue-card .card-glow { background: rgba(125,211,252,0.13); }
-.lpink-card .card-glow { background: rgba(249,168,212,0.13); }
+
 .card.leading .card-glow { opacity:1; }
 
 .card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; }
@@ -167,8 +159,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 .avatar { width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:17px; font-weight:600; }
 .blue-card  .avatar { background:var(--blue-soft);  color:var(--blue);  border:1px solid rgba(79,142,247,0.2); }
 .pink-card  .avatar { background:var(--pink-soft);  color:var(--pink);  border:1px solid rgba(247,111,160,0.2); }
-.lblue-card .avatar { background:var(--lblue-soft); color:var(--lblue); border:1px solid rgba(125,211,252,0.2); }
-.lpink-card .avatar { background:var(--lpink-soft); color:var(--lpink); border:1px solid rgba(249,168,212,0.2); }
+
 .card-name { font-size:15px; font-weight:600; letter-spacing:-0.01em; }
 .card-sub  { font-size:11px; color:var(--text-3); margin-top:1px; }
 
@@ -179,8 +170,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 .timer-display { font-family:'JetBrains Mono',monospace; font-size:clamp(22px,2.8vw,44px); font-weight:500; letter-spacing:-0.02em; line-height:1; margin-bottom:8px; transition:color 0.3s; }
 .blue-card  .timer-display.running { color:var(--blue); }
 .pink-card  .timer-display.running { color:var(--pink); }
-.lblue-card .timer-display.running { color:var(--lblue); }
-.lpink-card .timer-display.running { color:var(--lpink); }
+
 .total-label { font-size:12px; color:var(--text-3); display:flex; align-items:center; justify-content:center; gap:6px; }
 .total-label strong { color:var(--text-2); font-family:'JetBrains Mono',monospace; font-size:12px; }
 
@@ -195,8 +185,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 .progress-fill { height:100%; border-radius:100px; transition:width 1s ease; }
 .blue-card  .progress-fill { background:linear-gradient(90deg,rgba(79,142,247,0.5),var(--blue)); }
 .pink-card  .progress-fill { background:linear-gradient(90deg,rgba(247,111,160,0.5),var(--pink)); }
-.lblue-card .progress-fill { background:linear-gradient(90deg,rgba(125,211,252,0.5),var(--lblue)); }
-.lpink-card .progress-fill { background:linear-gradient(90deg,rgba(249,168,212,0.5),var(--lpink)); }
+
 
 .btn-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px; }
 .btn { border:none; border-radius:var(--radius-btn); padding:9px 0; font-family:'Inter',sans-serif; font-size:12px; font-weight:500; cursor:pointer; transition:all var(--transition); }
@@ -216,28 +205,13 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 .pink-card  .btn-stop  { background:var(--surface2); color:var(--text-3); border:1px solid var(--border); }
 .pink-card  .btn-stop:hover:not(:disabled)  { background:rgba(255,80,80,0.08); color:#ff6060; border-color:rgba(255,80,80,0.15); transform:translateY(-1px); }
 
-.lblue-card .btn-start { background:var(--lblue-btn); color:var(--lblue); border:1px solid rgba(125,211,252,0.2); }
-.lblue-card .btn-start:hover:not(:disabled) { background:rgba(125,211,252,0.22); box-shadow:0 0 16px rgba(125,211,252,0.15); transform:translateY(-1px); }
-.lblue-card .btn-pause { background:var(--surface2); color:var(--text-2); border:1px solid var(--border); }
-.lblue-card .btn-pause:hover:not(:disabled) { background:rgba(125,211,252,0.08); color:var(--lblue); border-color:rgba(125,211,252,0.15); transform:translateY(-1px); }
-.lblue-card .btn-stop  { background:var(--surface2); color:var(--text-3); border:1px solid var(--border); }
-.lblue-card .btn-stop:hover:not(:disabled)  { background:rgba(255,80,80,0.08); color:#ff6060; border-color:rgba(255,80,80,0.15); transform:translateY(-1px); }
 
-.lpink-card .btn-start { background:var(--lpink-btn); color:var(--lpink); border:1px solid rgba(249,168,212,0.2); }
-.lpink-card .btn-start:hover:not(:disabled) { background:rgba(249,168,212,0.22); box-shadow:0 0 16px rgba(249,168,212,0.15); transform:translateY(-1px); }
-.lpink-card .btn-pause { background:var(--surface2); color:var(--text-2); border:1px solid var(--border); }
-.lpink-card .btn-pause:hover:not(:disabled) { background:rgba(249,168,212,0.08); color:var(--lpink); border-color:rgba(249,168,212,0.15); transform:translateY(-1px); }
-.lpink-card .btn-stop  { background:var(--surface2); color:var(--text-3); border:1px solid var(--border); }
-.lpink-card .btn-stop:hover:not(:disabled)  { background:rgba(255,80,80,0.08); color:#ff6060; border-color:rgba(255,80,80,0.15); transform:translateY(-1px); }
+
+
 .btn:disabled { opacity:0.3; cursor:not-allowed; transform:none !important; box-shadow:none !important; }
 
 /* note btn colors */
-.lblue-card .note-send-btn { background:var(--lblue-btn); color:var(--lblue); border:1px solid rgba(125,211,252,0.2); }
-.lblue-card .note-send-btn:hover { background:rgba(125,211,252,0.22); }
-.lpink-card .note-send-btn { background:var(--lpink-btn); color:var(--lpink); border:1px solid rgba(249,168,212,0.2); }
-.lpink-card .note-send-btn:hover { background:rgba(249,168,212,0.22); }
-.lblue-card .note-input:focus { border-color:rgba(125,211,252,0.4); }
-.lpink-card .note-input:focus { border-color:rgba(249,168,212,0.4); }
+
 
 /* STATS BAR */
 .stats-bar { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-card); padding:16px 24px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; animation:fadeUp 0.5s 0.3s ease both; }
@@ -251,6 +225,10 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 /* ── NOTE BOX ─────────────────────────────────────────────── */
 .note-section { margin-top:14px; }
 .note-label { font-size:10px; color:var(--text-3); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+.note-italic-btn { border:none; border-radius:6px; padding:2px 7px; font-size:11px; cursor:pointer; background:var(--surface3); color:var(--text-3); border:1px solid var(--border); transition:all 0.2s; font-style:italic; margin-left:auto; }
+.note-italic-btn.active { color:var(--blue); border-color:rgba(79,142,247,0.4); background:var(--blue-soft); }
+.pink-card .note-italic-btn.active { color:var(--pink); border-color:rgba(247,111,160,0.4); background:var(--pink-soft); }
+.note-display.italic { font-style:italic; }
 .note-display {
   background:var(--surface2); border:1px solid var(--border);
   border-radius:10px; padding:10px 14px; font-size:13px; color:var(--text-2);
@@ -340,7 +318,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 }
 .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
 
-.weekly-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 18px; }
+.weekly-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 18px; }
 
 .weekly-card {
   background: var(--surface); border: 1px solid var(--border);
@@ -349,22 +327,18 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 }
 .weekly-card.blue-weekly  { border-top: 2px solid rgba(79,142,247,0.3); }
 .weekly-card.pink-weekly  { border-top: 2px solid rgba(247,111,160,0.3); }
-.weekly-card.lblue-weekly { border-top: 2px solid rgba(125,211,252,0.3); }
-.weekly-card.lpink-weekly { border-top: 2px solid rgba(249,168,212,0.3); }
+
+
 
 .weekly-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
 .weekly-name { font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px; }
 .weekly-name .wk-avatar { width:32px; height:32px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; }
 .blue-weekly  .wk-avatar { background:var(--blue-soft);  color:var(--blue); }
 .pink-weekly  .wk-avatar { background:var(--pink-soft);  color:var(--pink); }
-.lblue-weekly .wk-avatar { background:var(--lblue-soft); color:var(--lblue); }
-.lpink-weekly .wk-avatar { background:var(--lpink-soft); color:var(--lpink); }
 
 .weekly-total { font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:500; margin-bottom:6px; }
 .blue-weekly  .weekly-total { color: var(--blue); }
 .pink-weekly  .weekly-total { color: var(--pink); }
-.lblue-weekly .weekly-total { color: var(--lblue); }
-.lpink-weekly .weekly-total { color: var(--lpink); }
 .weekly-sub { font-size:11px; color:var(--text-3); }
 
 .week-days { display:flex; gap:6px; margin-top:16px; }
@@ -373,8 +347,6 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 .day-bar-fill { width:100%; border-radius:6px; transition:height 0.8s cubic-bezier(0.4,0,0.2,1); min-height:0; }
 .blue-weekly  .day-bar-fill { background:linear-gradient(180deg,var(--blue), rgba(79,142,247,0.4)); }
 .pink-weekly  .day-bar-fill { background:linear-gradient(180deg,var(--pink), rgba(247,111,160,0.4)); }
-.lblue-weekly .day-bar-fill { background:linear-gradient(180deg,var(--lblue),rgba(125,211,252,0.4)); }
-.lpink-weekly .day-bar-fill { background:linear-gradient(180deg,var(--lpink),rgba(249,168,212,0.4)); }
 .day-label { font-size:9px; color:var(--text-3); letter-spacing:0.05em; text-transform:uppercase; }
 .day-label.today { color: var(--text-2); font-weight:600; }
 
@@ -476,13 +448,9 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 .pip-dot.on { animation:pipblink 1.5s infinite; }
 .pip-dev-row   .pip-dot.on { background:#4f8ef7; box-shadow:0 0 5px #4f8ef7; }
 .pip-oshu-row  .pip-dot.on { background:#f76fa0; box-shadow:0 0 5px #f76fa0; }
-.pip-hanan-row .pip-dot.on { background:#7dd3fc; box-shadow:0 0 5px #7dd3fc; }
-.pip-hwoman-row .pip-dot.on { background:#f9a8d4; box-shadow:0 0 5px #f9a8d4; }
 .pip-time { font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:500; color:rgba(255,255,255,0.85); letter-spacing:-0.01em; transition:color 0.3s; }
 .pip-dev-row   .pip-time.on { color:#4f8ef7; }
 .pip-oshu-row  .pip-time.on { color:#f76fa0; }
-.pip-hanan-row .pip-time.on { color:#7dd3fc; }
-.pip-hwoman-row .pip-time.on { color:#f9a8d4; }
 .pip-divider { height:1px; background:rgba(255,255,255,0.05); }
 .pip-footer { font-size:10px; color:rgba(255,255,255,0.25); font-family:'Inter',sans-serif; text-align:center; margin-top:1px; }
 @keyframes pipblink { 0%,100%{opacity:1} 50%{opacity:.3} }
@@ -634,7 +602,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
           <button class="btn" style="padding:6px 12px;font-size:11px;background:var(--surface2);color:var(--text-3);border:1px solid var(--border);border-radius:8px" onclick="openEditModal('dev')">✏️ Edit time</button>
         </div>
         <div class="note-section">
-          <div class="note-label">💙 Dev's note for Oshu</div>
+          <div class="note-label">💙 Dev's note for Oshu<button class="note-italic-btn" id="devItalicBtn" onclick="toggleItalic('dev')" title="Toggle italic">𝐼</button></div>
           <div class="note-display empty" id="devNoteDisplay" onclick="toggleNoteEdit('dev')">Click to leave a note…</div>
           <div id="devNoteEdit" style="display:none">
             <div class="note-edit-row">
@@ -678,7 +646,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
           <button class="btn" style="padding:6px 12px;font-size:11px;background:var(--surface2);color:var(--text-3);border:1px solid var(--border);border-radius:8px" onclick="openEditModal('oshu')">✏️ Edit time</button>
         </div>
         <div class="note-section">
-          <div class="note-label">🩷 Oshu's note for Dev</div>
+          <div class="note-label">🩷 Oshu's note for Dev<button class="note-italic-btn" id="oshuItalicBtn" onclick="toggleItalic('oshu')" title="Toggle italic">𝐼</button></div>
           <div class="note-display empty" id="oshuNoteDisplay" onclick="toggleNoteEdit('oshu')">Click to leave a note…</div>
           <div id="oshuNoteEdit" style="display:none">
             <div class="note-edit-row">
@@ -690,93 +658,6 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
         </div>
       </div>
 
-      <!-- HANAN -->
-      <div class="card lblue-card" id="hananCard">
-        <div class="card-glow"></div>
-        <div class="card-header">
-          <div class="card-identity">
-            <div class="avatar">H</div>
-            <div><div class="card-name">Hanan</div><div class="card-sub">Him · Light Blue team</div></div>
-          </div>
-          <div class="status-dot" id="hananDot"></div>
-        </div>
-        <div class="timer-block">
-          <div class="timer-display" id="hananTimer">00:00:00</div>
-          <div class="total-label">Total today &nbsp;·&nbsp; <strong id="hananTotal">00:00:00</strong></div>
-        </div>
-        <div class="session-info">
-          <div class="stat-chip"><span class="stat-val" id="hananSessions">0</span><span class="stat-key">Sessions</span></div>
-          <div class="stat-chip"><span class="stat-val" id="hananLongest">—</span><span class="stat-key">Longest</span></div>
-          <div class="stat-chip"><span class="stat-val" id="hananStreak">🔥 0</span><span class="stat-key">Streak</span></div>
-        </div>
-        <div class="progress-section">
-          <div class="progress-header"><span>Daily goal — 4h</span><span id="hananPct">0%</span></div>
-          <div class="progress-track"><div class="progress-fill" id="hananBar" style="width:0%"></div></div>
-        </div>
-        <div class="btn-row">
-          <button class="btn btn-start" id="hananStart" onclick="startTimer('hanan')">▶ Start</button>
-          <button class="btn btn-pause" id="hananPause" onclick="pauseTimer('hanan')" disabled>⏸ Pause</button>
-          <button class="btn btn-stop"  id="hananStop"  onclick="stopTimer('hanan')"  disabled>■ Stop</button>
-        </div>
-        <div style="display:flex;justify-content:flex-end;margin-top:8px">
-          <button class="btn" style="padding:6px 12px;font-size:11px;background:var(--surface2);color:var(--text-3);border:1px solid var(--border);border-radius:8px" onclick="openEditModal('hanan')">✏️ Edit time</button>
-        </div>
-        <div class="note-section">
-          <div class="note-label">🩵 Hanan's note</div>
-          <div class="note-display empty" id="hananNoteDisplay" onclick="toggleNoteEdit('hanan')">Click to leave a note…</div>
-          <div id="hananNoteEdit" style="display:none">
-            <div class="note-edit-row">
-              <textarea class="note-input" id="hananNoteInput" placeholder="Write something… 🩵" maxlength="200"></textarea>
-              <button class="note-send-btn" onclick="saveNote('hanan')">Send</button>
-              <button class="note-cancel-btn" onclick="cancelNoteEdit('hanan')">✕</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- HANAN'S WOMAN -->
-      <div class="card lpink-card" id="hwomanCard">
-        <div class="card-glow"></div>
-        <div class="card-header">
-          <div class="card-identity">
-            <div class="avatar">W</div>
-            <div><div class="card-name">Hanan's Woman</div><div class="card-sub">Her · Light Pink team</div></div>
-          </div>
-          <div class="status-dot" id="hwomanDot"></div>
-        </div>
-        <div class="timer-block">
-          <div class="timer-display" id="hwomanTimer">00:00:00</div>
-          <div class="total-label">Total today &nbsp;·&nbsp; <strong id="hwomanTotal">00:00:00</strong></div>
-        </div>
-        <div class="session-info">
-          <div class="stat-chip"><span class="stat-val" id="hwomanSessions">0</span><span class="stat-key">Sessions</span></div>
-          <div class="stat-chip"><span class="stat-val" id="hwomanLongest">—</span><span class="stat-key">Longest</span></div>
-          <div class="stat-chip"><span class="stat-val" id="hwomanStreak">🔥 0</span><span class="stat-key">Streak</span></div>
-        </div>
-        <div class="progress-section">
-          <div class="progress-header"><span>Daily goal — 4h</span><span id="hwomanPct">0%</span></div>
-          <div class="progress-track"><div class="progress-fill" id="hwomanBar" style="width:0%"></div></div>
-        </div>
-        <div class="btn-row">
-          <button class="btn btn-start" id="hwomanStart" onclick="startTimer('hwoman')">▶ Start</button>
-          <button class="btn btn-pause" id="hwomanPause" onclick="pauseTimer('hwoman')" disabled>⏸ Pause</button>
-          <button class="btn btn-stop"  id="hwomanStop"  onclick="stopTimer('hwoman')"  disabled>■ Stop</button>
-        </div>
-        <div style="display:flex;justify-content:flex-end;margin-top:8px">
-          <button class="btn" style="padding:6px 12px;font-size:11px;background:var(--surface2);color:var(--text-3);border:1px solid var(--border);border-radius:8px" onclick="openEditModal('hwoman')">✏️ Edit time</button>
-        </div>
-        <div class="note-section">
-          <div class="note-label">🌸 Hanan's Woman's note</div>
-          <div class="note-display empty" id="hwomanNoteDisplay" onclick="toggleNoteEdit('hwoman')">Click to leave a note…</div>
-          <div id="hwomanNoteEdit" style="display:none">
-            <div class="note-edit-row">
-              <textarea class="note-input" id="hwomanNoteInput" placeholder="Write something… 🌸" maxlength="200"></textarea>
-              <button class="note-send-btn" onclick="saveNote('hwoman')">Send</button>
-              <button class="note-cancel-btn" onclick="cancelNoteEdit('hwoman')">✕</button>
-            </div>
-          </div>
-        </div>
-      </div>
 
     </div><!-- /cards -->
 
@@ -784,10 +665,6 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
       <div class="stats-bar-item"><span class="stats-bar-val" id="sbDevTotal">00:00:00</span><span class="stats-bar-label">Dev</span></div>
       <div class="divider-v"></div>
       <div class="stats-bar-item"><span class="stats-bar-val" id="sbOshuTotal">00:00:00</span><span class="stats-bar-label">Oshu</span></div>
-      <div class="divider-v"></div>
-      <div class="stats-bar-item"><span class="stats-bar-val" id="sbHananTotal">00:00:00</span><span class="stats-bar-label">Hanan</span></div>
-      <div class="divider-v"></div>
-      <div class="stats-bar-item"><span class="stats-bar-val" id="sbHwomanTotal">00:00:00</span><span class="stats-bar-label">H's Woman</span></div>
       <div class="divider-v"></div>
       <div class="stats-bar-item"><span class="stats-bar-val" id="sbDiff">—</span><span class="stats-bar-label">Top Gap</span></div>
       <div class="divider-v"></div>
@@ -841,34 +718,6 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
         <div class="weekly-total" id="wkOshuTotal">00:00:00</div>
         <div class="weekly-sub" id="wkOshuSessions">0 sessions this week</div>
         <div class="week-days" id="wkOshuDays"></div>
-      </div>
-
-      <!-- HANAN WEEKLY -->
-      <div class="weekly-card lblue-weekly">
-        <div class="weekly-card-header">
-          <div class="weekly-name">
-            <div class="wk-avatar">H</div>
-            Hanan
-          </div>
-          <span style="font-size:11px;color:var(--text-3)">Light Blue team</span>
-        </div>
-        <div class="weekly-total" id="wkHananTotal">00:00:00</div>
-        <div class="weekly-sub" id="wkHananSessions">0 sessions this week</div>
-        <div class="week-days" id="wkHananDays"></div>
-      </div>
-
-      <!-- HANAN'S WOMAN WEEKLY -->
-      <div class="weekly-card lpink-weekly">
-        <div class="weekly-card-header">
-          <div class="weekly-name">
-            <div class="wk-avatar">W</div>
-            Hanan's Woman
-          </div>
-          <span style="font-size:11px;color:var(--text-3)">Light Pink team</span>
-        </div>
-        <div class="weekly-total" id="wkHwomanTotal">00:00:00</div>
-        <div class="weekly-sub" id="wkHwomanSessions">0 sessions this week</div>
-        <div class="week-days" id="wkHwomanDays"></div>
       </div>
 
     </div>
@@ -1105,9 +954,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 
   let cloud = {
     dev:    { status:'idle', startedAt:null, elapsed:0, totalSec:0, sessions:0, longest:0 },
-    oshu:   { status:'idle', startedAt:null, elapsed:0, totalSec:0, sessions:0, longest:0 },
-    hanan:  { status:'idle', startedAt:null, elapsed:0, totalSec:0, sessions:0, longest:0 },
-    hwoman: { status:'idle', startedAt:null, elapsed:0, totalSec:0, sessions:0, longest:0 }
+    oshu:   { status:'idle', startedAt:null, elapsed:0, totalSec:0, sessions:0, longest:0 }
   };
 
   function liveElapsed(user) {
@@ -1189,7 +1036,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   let prevLeader = null;
 
   function render() {
-    const ALL = ['dev','oshu','hanan','hwoman'];
+    const ALL = ['dev','oshu'];
     const lives = {};
     ALL.forEach(u => { lives[u] = cloud[u].totalSec + liveElapsed(u); });
 
@@ -1214,8 +1061,6 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 
     el('sbDevTotal').textContent    = fmt(lives.dev);
     el('sbOshuTotal').textContent   = fmt(lives.oshu);
-    el('sbHananTotal').textContent  = fmt(lives.hanan);
-    el('sbHwomanTotal').textContent = fmt(lives.hwoman);
     el('sbSessions').textContent    = totalSessions;
 
     // Top gap: diff between 1st and 2nd
@@ -1238,9 +1083,9 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
       el('leaderText').textContent = 'Start studying to lead';
       el('sbLeader').textContent   = '—';
     } else {
-      const nameMap = { dev:'Dev', oshu:'Oshu', hanan:'Hanan', hwoman:"Hanan's Woman" };
-      const iconMap = { dev:'💙', oshu:'🩷', hanan:'🩵', hwoman:'🌸' };
-      const classMap = { dev:'blue', oshu:'pink', hanan:'lblue', hwoman:'lpink' };
+      const nameMap = { dev:'Dev', oshu:'Oshu' };
+      const iconMap = { dev:'💙', oshu:'🩷' };
+      const classMap = { dev:'blue', oshu:'pink' };
       // Check for tie at top
       const topVal = lives[sorted[0]];
       const tied = sorted.filter(u => lives[u] === topVal);
@@ -1271,7 +1116,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
       el('syncLabel').textContent = 'Synced live with Firebase ✓';
       if (!snap.exists()) { render(); return; }
       const data = snap.data();
-      ['dev','oshu','hanan','hwoman'].forEach(u => {
+      ['dev','oshu'].forEach(u => {
         if (!data[u]) return;
         cloud[u] = { ...cloud[u], ...data[u] };
       });
@@ -1310,29 +1155,29 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
     const weekDates = getWeekDatesIST();
     const todayKey  = todayIST();
 
-    let weeklyData = { dev: {}, oshu: {}, hanan: {}, hwoman: {} };
+    let weeklyData = { dev: {}, oshu: {} };
     try {
       const snap = await getDoc(doc(db, 'weekly', weekKey));
       if (snap.exists()) {
         const d = snap.data();
-        ['dev','oshu','hanan','hwoman'].forEach(u => { if (d[u]) weeklyData[u] = d[u]; });
+        ['dev','oshu'].forEach(u => { if (d[u]) weeklyData[u] = d[u]; });
       }
     } catch(e) { console.error('Weekly load error:', e); }
 
-    ['dev','oshu','hanan','hwoman'].forEach(u => {
+    ['dev','oshu'].forEach(u => {
       weeklyData[u][todayKey] = { totalSec: cloud[u].totalSec + liveElapsed(u), sessions: cloud[u].sessions };
     });
 
     const days = {};
     const sessArr = {};
-    ['dev','oshu','hanan','hwoman'].forEach(u => {
+    ['dev','oshu'].forEach(u => {
       days[u]    = weekDates.map(d => weeklyData[u][d]?.totalSec || 0);
       sessArr[u] = weekDates.map(d => weeklyData[u][d]?.sessions || 0);
     });
 
     const totals = {};
     const sess   = {};
-    ['dev','oshu','hanan','hwoman'].forEach(u => {
+    ['dev','oshu'].forEach(u => {
       totals[u] = days[u].reduce((a,b)=>a+b,0);
       sess[u]   = sessArr[u].reduce((a,b)=>a+b,0);
     });
@@ -1341,12 +1186,8 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 
     el('wkDevTotal').textContent    = fmt(totals.dev);
     el('wkOshuTotal').textContent   = fmt(totals.oshu);
-    el('wkHananTotal').textContent  = fmt(totals.hanan);
-    el('wkHwomanTotal').textContent = fmt(totals.hwoman);
     el('wkDevSessions').textContent    = `${sess.dev} session${sess.dev!==1?'s':''} this week`;
     el('wkOshuSessions').textContent   = `${sess.oshu} session${sess.oshu!==1?'s':''} this week`;
-    el('wkHananSessions').textContent  = `${sess.hanan} session${sess.hanan!==1?'s':''} this week`;
-    el('wkHwomanSessions').textContent = `${sess.hwoman} session${sess.hwoman!==1?'s':''} this week`;
 
     const combinedTotal = Object.values(totals).reduce((a,b)=>a+b,0);
     el('wkCombined').textContent = fmt(combinedTotal);
@@ -1355,7 +1196,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
     // Best combined day
     let bestIdx = 0, bestVal = 0;
     weekDates.forEach((_, i) => {
-      const combined = ['dev','oshu','hanan','hwoman'].reduce((s,u) => s + days[u][i], 0);
+      const combined = ['dev','oshu'].reduce((s,u) => s + days[u][i], 0);
       if (combined > bestVal) { bestVal = combined; bestIdx = i; }
     });
     el('wkBestDay').textContent = bestVal > 0 ? DAY_LABELS[bestIdx] : '—';
@@ -1369,8 +1210,8 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
     const winText   = el('wkWinnerText');
     if (combinedTotal > 0) {
       winBanner.classList.add('show');
-      const icons = { dev:'💙', oshu:'🩷', hanan:'🩵', hwoman:'🌸' };
-      const names = { dev:'Dev', oshu:'Oshu', hanan:'Hanan', hwoman:"Hanan's Woman" };
+      const icons = { dev:'💙', oshu:'🩷' };
+      const names = { dev:'Dev', oshu:'Oshu' };
       const leader = sortedTotals[0][0];
       if (sortedTotals[0][1] === sortedTotals[1][1]) winText.textContent = "🤝 It's a tie at the top this week!";
       else winText.textContent = `${icons[leader]} ${names[leader]} is leading this week!`;
@@ -1396,8 +1237,6 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
     }
     buildDayBars('wkDevDays',    days.dev);
     buildDayBars('wkOshuDays',   days.oshu);
-    buildDayBars('wkHananDays',  days.hanan);
-    buildDayBars('wkHwomanDays', days.hwoman);
 
     renderCharts(days, weekDates, todayKey);
   }
@@ -1416,8 +1255,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
         datasets: [
           { label:'Dev',          data:days.dev.map(s=>+(s/3600).toFixed(2)),    backgroundColor:'rgba(79,142,247,0.6)',  borderRadius:5, borderColor:'rgba(79,142,247,0.9)',  borderWidth:1 },
           { label:'Oshu',         data:days.oshu.map(s=>+(s/3600).toFixed(2)),   backgroundColor:'rgba(247,111,160,0.55)',borderRadius:5, borderColor:'rgba(247,111,160,0.9)',borderWidth:1 },
-          { label:'Hanan',        data:days.hanan.map(s=>+(s/3600).toFixed(2)),  backgroundColor:'rgba(125,211,252,0.55)',borderRadius:5, borderColor:'rgba(125,211,252,0.9)',borderWidth:1 },
-          { label:"Hanan's Woman",data:days.hwoman.map(s=>+(s/3600).toFixed(2)), backgroundColor:'rgba(249,168,212,0.55)',borderRadius:5, borderColor:'rgba(249,168,212,0.9)',borderWidth:1 },
+
         ]
       },
       options: {
@@ -1432,24 +1270,20 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
 
     const devToday    = cloud.dev.totalSec    + liveElapsed('dev');
     const oshuToday   = cloud.oshu.totalSec   + liveElapsed('oshu');
-    const hananToday  = cloud.hanan.totalSec  + liveElapsed('hanan');
-    const hwomanToday = cloud.hwoman.totalSec + liveElapsed('hwoman');
-    const combined = devToday + oshuToday + hananToday + hwomanToday;
+    const combined = devToday + oshuToday;
     if (chartToday) chartToday.destroy();
     chartToday = new Chart(el('chartToday'), {
       type:'doughnut',
       data:{
-        labels:['Dev','Oshu','Hanan',"Hanan's Woman",'Remaining'],
+        labels:['Dev','Oshu','Remaining'],
         datasets:[{
           data:[
             +(devToday/3600).toFixed(2),
             +(oshuToday/3600).toFixed(2),
-            +(hananToday/3600).toFixed(2),
-            +(hwomanToday/3600).toFixed(2),
-            Math.max(0, +((16-combined/3600)).toFixed(2))
+            Math.max(0, +((8-combined/3600)).toFixed(2))
           ],
-          backgroundColor:['rgba(79,142,247,0.8)','rgba(247,111,160,0.75)','rgba(125,211,252,0.75)','rgba(249,168,212,0.75)','rgba(255,255,255,0.05)'],
-          borderColor:['rgba(79,142,247,1)','rgba(247,111,160,1)','rgba(125,211,252,1)','rgba(249,168,212,1)','rgba(255,255,255,0.08)'],
+          backgroundColor:['rgba(79,142,247,0.8)','rgba(247,111,160,0.75)','rgba(255,255,255,0.05)'],
+          borderColor:['rgba(79,142,247,1)','rgba(247,111,160,1)','rgba(255,255,255,0.08)'],
           borderWidth:1
         }]
       },
@@ -1465,8 +1299,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
         datasets:[
           { label:'Dev',          data:pcts('dev'),    borderColor:'rgba(79,142,247,0.9)',  backgroundColor:'rgba(79,142,247,0.08)',  tension:0.4,fill:true,pointRadius:4,pointBackgroundColor:'#4f8ef7' },
           { label:'Oshu',         data:pcts('oshu'),   borderColor:'rgba(247,111,160,0.9)', backgroundColor:'rgba(247,111,160,0.08)', tension:0.4,fill:true,pointRadius:4,pointBackgroundColor:'#f76fa0' },
-          { label:'Hanan',        data:pcts('hanan'),  borderColor:'rgba(125,211,252,0.9)', backgroundColor:'rgba(125,211,252,0.08)', tension:0.4,fill:true,pointRadius:4,pointBackgroundColor:'#7dd3fc' },
-          { label:"Hanan's Woman",data:pcts('hwoman'), borderColor:'rgba(249,168,212,0.9)', backgroundColor:'rgba(249,168,212,0.08)', tension:0.4,fill:true,pointRadius:4,pointBackgroundColor:'#f9a8d4' },
+
           { label:'Goal (100%)',  data:Array(7).fill(100), borderColor:'rgba(255,255,255,0.12)',borderDash:[6,4],pointRadius:0,fill:false }
         ]
       },
@@ -1487,7 +1320,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   // ── NOTIFICATIONS ────────────────────────────────────────────
   let notifSettings = JSON.parse(localStorage.getItem('notifSettings') || '{}');
   let lastInactivityNotif = 0;
-  let goalNotified = { dev: false, oshu: false, hanan: false, hwoman: false };
+  let goalNotified = { dev: false, oshu: false };
   let leadNotified = null;
 
   window.saveNotifSettings = function() {
@@ -1523,7 +1356,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   function checkNotifMilestone(user, totalSec) {
     if (!notifSettings.milestone) return;
     const hours = Math.floor(totalSec / 3600);
-    const names = { dev:'Dev', oshu:'Oshu', hanan:'Hanan', hwoman:"Hanan's Woman" };
+    const names = { dev:'Dev', oshu:'Oshu' };
     if (hours >= 1 && hours <= 4) {
       sendNotif(`${names[user]||user} hit ${hours}h! 🎉`, `Keep going — the grind is paying off 💪`);
     }
@@ -1532,21 +1365,21 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   function checkGoalNotif(user) {
     if (!notifSettings.goal || goalNotified[user]) return;
     goalNotified[user] = true;
-    const names = { dev:'Dev', oshu:'Oshu', hanan:'Hanan', hwoman:"Hanan's Woman" };
+    const names = { dev:'Dev', oshu:'Oshu' };
     sendNotif(`🎯 ${names[user]||user} hit the 4h daily goal!`, `Amazing work! Goal achieved for today 🏆`);
   }
 
   function checkLeadChangeNotif(leader) {
     if (!notifSettings.lead || leadNotified === leader) return;
     leadNotified = leader;
-    const names = { dev:'Dev 💙', oshu:'Oshu 🩷', hanan:'Hanan 🩵', hwoman:"Hanan's Woman 🌸" };
+    const names = { dev:'Dev 💙', oshu:'Oshu 🩷' };
     sendNotif(`Lead change! ${names[leader]||leader} is now ahead!`, `The race is on — time to catch up!`);
   }
 
   // Inactivity reminder check every minute
   setInterval(() => {
     if (!notifSettings.reminder) return;
-    const bothIdle = ['dev','oshu','hanan','hwoman'].every(u => cloud[u].status === 'idle');
+    const bothIdle = ['dev','oshu'].every(u => cloud[u].status === 'idle');
     if (!bothIdle) { lastInactivityNotif = Date.now(); return; }
     const mins = (Date.now() - lastInactivityNotif) / 60000;
     if (mins >= (notifSettings.interval || 60)) {
@@ -1598,7 +1431,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   }, 30000);
 
   // ── NOTES ────────────────────────────────────────────────────
-  let notes = { dev: '', oshu: '', hanan: '', hwoman: '' };
+  let notes = { dev: '', oshu: '' };
 
   function renderNote(user) {
     const display = el(`${user}NoteDisplay`);
@@ -1627,6 +1460,18 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
     el(`${user}NoteDisplay`).style.display = 'block';
   };
 
+
+  // ── ITALIC TOGGLE ─────────────────────────────────────────────
+  let noteItalic = { dev: false, oshu: false };
+
+  window.toggleItalic = function(user) {
+    noteItalic[user] = !noteItalic[user];
+    const display = el(`${user}NoteDisplay`);
+    const btn = el(`${user}ItalicBtn`);
+    display.classList.toggle('italic', noteItalic[user]);
+    btn.classList.toggle('active', noteItalic[user]);
+  };
+
   window.saveNote = async function(user) {
     const txt = el(`${user}NoteInput`).value.trim();
     notes[user] = txt;
@@ -1640,7 +1485,7 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   onSnapshot(doc(db, 'notes', todayIST()), snap => {
     if (!snap.exists()) return;
     const data = snap.data();
-    ['dev','oshu','hanan','hwoman'].forEach(u => {
+    ['dev','oshu'].forEach(u => {
       if (data[u] !== undefined && data[u] !== notes[u]) {
         notes[u] = data[u];
         if (el(`${u}NoteEdit`).style.display === 'none') renderNote(u);
@@ -1654,13 +1499,13 @@ h1 { font-size: clamp(26px,5vw,38px); font-weight: 700; letter-spacing: -0.03em;
   window.openEditModal = function(user) {
     editTarget = user;
     const totalSec = cloud[user].totalSec;
-    const names = { dev:'Dev', oshu:'Oshu', hanan:'Hanan', hwoman:"Hanan's Woman" };
+    const names = { dev:'Dev', oshu:'Oshu' };
     el('editModalTitle').textContent = `Edit ${names[user]||user}'s Total Time`;
     el('editHours').value   = Math.floor(totalSec / 3600);
     el('editMinutes').value = Math.floor((totalSec % 3600) / 60);
     el('editSeconds').value = totalSec % 60;
     const btn = el('editConfirmBtn');
-    btn.className = `btn-confirm${user==='oshu'?' pink':user==='hanan'?' lblue':user==='hwoman'?' lpink':''}`;
+    btn.className = `btn-confirm${user==='oshu'?' pink':''}` ;
     el('editModal').classList.add('show');
     el('editHours').focus();
   };
